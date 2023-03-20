@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.virtue.mapper.MaintainMapper">
+
+    <select id="findByPage" resultType="com.virtue.pojo.Maintain">
+select m.maid,m.waid, m.bdate, m.unit,m.maorder,m.repair,m.cause,m.expense,g.genrecode,gname ,p.jobnub,p.pename,w.waname FROM maintain m INNER JOIN warehous w ON m.waid=w.waid INNER JOIN genre g ON w.gid=g.gid INNER JOIN personnel p ON m.repairerpeid=p.peid  ${ew.customSqlSegment}
+
+    </select>
+    <select id="findOneByMaid" resultType="com.virtue.pojo.Maintain" parameterType="integer">
+
+        select m.faultde,m.maid,m.bdate, m.unit,m.maorder,m.repair,m.cause,m.expense,g.genrecode,gname ,p.jobnub,p.pename,w.waname FROM maintain m
+        INNER JOIN warehous w ON m.waid=w.waid
+        INNER JOIN genre g ON w.gid=g.gid
+        INNER JOIN personnel p ON m.repairerpeid=p.peid
+        where m.maid=#{maid}
+
+
+    </select>
+</mapper>

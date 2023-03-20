@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <title>注册</title>
+        <link rel="stylesheet" type="text/css" href="css/common.css">
+        <link rel="stylesheet" href="css/register.css">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/materialdesignicons.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="js/bootstrap-multitabs/multitabs.min.css">
+		<link rel="stylesheet" href="plugins/elementui/index.css">
+		<link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+		<link href="css/style.min.css" rel="stylesheet">
+		<!--导入jquery-->
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/main.min.js"></script>
+
+	</head>
+	<body>
+	<div id="app">
+	<!--引入头部-->
+	<div id="header"></div>
+        <!-- 头部 end -->
+    	<div class="rg_layout">
+    		<div class="rg_form clearfix"><a href="index.html"><img src="images/login-sider.PNG" /></a>
+    			<div class="rg_form_left">
+					
+    				<p>新用户注册</p>
+    				<p>USER REGISTER</p>
+					
+    			</div>
+    			<div class="rg_form_center">
+					
+					<!--注册表单-->
+    				<form  onsubmit="return false;">
+						<!--提交处理请求的标识符-->
+						<input type="hidden" name="action" value="register">
+    					<table style="margin-top: 25px;">
+    						<tr>
+    							<td class="td_left">
+    								<label for="username">性名</label>
+    							</td>
+								<td>
+    							<div class="col-xs-12">
+    							<input class="form-control" type="text" id="username" name="username" placeholder="请输入真实姓名..">
+								</div>
+    							</td>
+
+    						</tr>
+
+    						<tr>
+    							<td class="td_left">
+              
+    								<label for="password">密码</label>
+    							</td>
+    							<td>
+    							<div class="col-xs-12">
+    							<input class="form-control" type="text" id="password" name="password" placeholder="请输入密码..">
+								</div>
+    							</td>
+
+    						</tr>
+    						<tr>
+    							<td class="td_left">
+    						              
+    								<label for="email">邮箱</label>
+    							</td>
+    							<td>
+    							<div class="col-xs-12">
+    							<input class="form-control" type="email" id="email" name="email" placeholder="请输入邮箱..">
+								</div>
+    							</td>
+    						</tr>
+
+							
+
+    						
+    						<tr>
+    							<td class="td_left">
+    								<label for="check">验证码</label>
+    							</td>
+    							<td class="td_right check">
+    								<input type="text" id="check" name="check" class="check"><br>
+									<img alt="单击图片刷新！" class="pull-right" name="code" th:src="@{/common/register}"
+										 onclick="this.src='/common/register?d='+new Date()*1">
+    							</td>
+
+    						</tr>
+
+    							<td class="td_left"> 
+    							</td>
+    							<td class="td_right check"> 
+    								<button class="btn btn-label btn-primary"@click="regietes()" ><label><i class="mdi mdi-checkbox-marked-circle-outline"></i></label> 注册</button>
+									<span id="msg" style="color: red;"></span>
+									
+    							</td></tr>
+								
+    						<p style="color: red;">邮箱用于激活账号！每个邮箱只能用一个账号</p>
+							
+    					</table>
+    				</form>
+    			</div>
+    			<div class="rg_form_right">
+    				<p>
+    					已有账号？
+    					<a href="#">立即登录</a>
+    				</p>
+    			</div>
+    		</div>
+    	</div>
+	</div>
+        <!--引入尾部-->
+    	<div id="footer"></div>
+		<!--导入布局js，共享header和footer-->
+		<script type="text/javascript" src="js/include.js"></script>
+	<script src="js/axios-0.18.0.js"></script>
+	<script src="js/vue.js"></script>
+
+	<script src="plugins/elementui/index.js"></script>
+	<script type="text/javascript" charset="UTF-8">
+		var vue = new Vue({
+			el: '#app',
+			data: {
+				multipleSelection: [],
+				ids: [],
+				errorMsg: '',
+				dataList: [],//当前页要展示的列表数据
+				dialogFormVisible: false,//添加表单是否可见
+				dialogFormVisible4Edit: false,//编辑表单是否可见
+
+
+			},
+
+			//钩子函数，VUE对象初始化完成后自动执行
+			created() {
+
+			},
+
+			methods: {
+
+				regietes() {
+					axios({
+						method: "post",
+						url: "/registers",
+						data: {
+							username: $("#username").val(),
+							password: $("#password").val(),
+							email: $("#email").val()
+
+						}
+
+					}).then(function (resp) {
+						if (resp.data.success) {
+							alert("注册成功！请前往邮箱激活才可以登录")
+
+						}else {
+							alert("注册失败！")
+						}
+					})
+				}
+
+			}
+		})
+		// $("#regiest").on("click",function() {
+		//
+		//
+		//
+		// 	axios({
+		// 		method: "post",
+		// 		url: "/registers",
+		// 		data:{
+		// 			username:$("#username").val(),
+		// 			password:$("#password").val(),
+		// 			email:$("#email").val()
+		//
+		// 		}
+		//
+		// 	})
+
+
+
+			// $.ajax({
+			// 	url:"/registers",
+			// 	type:"POST",
+			// 	data: {
+			// 	username:"123",
+			// 	password:"123"
+			//
+			// 	},
+			//
+			//
+			// 		success:function (result) {
+			// 		alert(result.message)
+			// 	},
+			//
+			// 	error:function (result) {
+			//
+			// 	}
+			// });
+		// });
+
+
+	</script>
+    </body>
+</html>

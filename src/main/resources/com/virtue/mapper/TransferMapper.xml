@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.virtue.mapper.TransferMapper">
+    <update id="updateruturndate"></update>
+
+    <select id="findByPage" resultType="com.virtue.pojo.Transfer">
+        SELECT t.trorder,t.trid,t.trdate,t.cause,g.genrecode,g.gname,w.waname,w.waid,p.pename AS newname ,s.pename AS worn FROM transfer t
+        INNER JOIN borrowed b ON t.wornpeid=b.boid
+        INNER JOIN personnel p ON  t.newpeid=p.peid
+        INNER JOIN personnel s ON b.peid=s.peid
+        INNER JOIN warehous w ON b.waid=w.waid
+        INNER JOIN genre g ON  w.gid= g.gid ${ew.customSqlSegment}
+
+    </select>
+    <select id="findOneByTrid" resultType="com.virtue.pojo.Transfer" parameterType="integer">
+          SELECT p.dename AS newdename,s.dename AS worndename ,t.trorder,t.trid,t.trdate,t.cause,g.genrecode,g.gname,w.waname,w.waid,p.jobnub AS newjobup,s.jobnub AS wornjobub,p.pename AS newname ,s.pename AS worn FROM transfer t
+        INNER JOIN borrowed b ON t.wornpeid=b.boid
+        INNER JOIN personnel p ON  t.newpeid=p.peid
+        INNER JOIN personnel s ON b.peid=s.peid
+        INNER JOIN warehous w ON b.waid=w.waid
+        INNER JOIN genre g ON  w.gid= g.gid where trid=#{trid}
+
+    </select>
+
+</mapper>

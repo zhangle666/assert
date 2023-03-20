@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>首页 - 光年(elvt assets Admin)后台管理系统模板</title>
+<link rel="icon" href="favicon.ico" type="image/ico">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="yinqi">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/materialdesignicons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="js/bootstrap-multitabs/multitabs.min.css">
+<link href="css/style.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="plugins/elementui/index.css">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/stylee.css">
+</head>
+  
+<body>
+<div id="app">
+<div class="lyear-layout-web">
+  <div class="lyear-layout-container">
+    <!--左侧导航-->
+    <aside class="lyear-layout-sidebar">
+      
+      <!-- logo -->
+      <div id="logo" class="sidebar-header">
+        <a href="index.html"><img src="images/login-sider.PNG" title="LightYear" alt="LightYear" /></a>
+      </div>
+      <div class="lyear-layout-sidebar-scroll"> 
+        
+        <nav class="sidebar-main">
+          <ul class="nav nav-drawer">
+            <li class="nav-item active"> <a class="multitabs" href="/overview"><i class="mdi mdi-home"></i> <span>Welcome(首页)</span></a> </li>
+
+
+            <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)"><i class="mdi mdi-skype"></i> <span>资产管理</span></a>
+              <ul class="nav nav-subnav">
+                <li> <a class="multitabs" href="/assetsGenres"><i class="mdi mdi-atom"></i> 资产类别</a> </li>
+                <li> <a class="multitabs" href="/assetsSubscribe"><i class="mdi mdi-import"></i> 资产申购</a> </li>
+                <li> <a class="multitabs" href="assetsBorrowed"><i class="mdi mdi-counter"></i> 资产借还</a> </li>
+                <li> <a class="multitabs" href="assetsTransfer"><i class="mdi mdi-run-fast"></i> 资产转移</a> </li>
+                  <li> <a class="multitabs" href="/assetsWarehous"><i class="mdi mdi-atom"></i> 资产入库</a> </li>
+                <li> <a class="multitabs" href="assetsMaintain"><i class="mdi mdi-ethernet-cable"></i> 资产维修</a> </li>
+                <li> <a class="multitabs" href="/assetsRetirement"><i class="mdi mdi-alert"></i> 资产报废</a> </li>
+                <li> <a class="multitabs" href="assetsMaintainWX"><i class="mdi mdi-comment-check"></i> 资产维修统计</a> </li>
+              </ul>
+            </li>
+			<li class="nav-item nav-item-has-subnav">
+			  <a href="javascript:void(0)"><i class="mdi mdi-26px mdi-spin mdi-star"><!-- <::before></::before> --></i> <span>产品管理</span></a>
+			  <ul class="nav nav-subnav">
+			    <li> <a class="multitabs" href="/assetsBrand"><i class="mdi mdi-airplay"></i> 品牌管理</a> </li>
+			    <li> <a class="multitabs" href="/assetsSupplier"><i class="mdi mdi-human-greeting"></i> 供应商</a> </li>
+			    <li> <a class="multitabs" href="/assetsAchieve"><i class="mdi mdi-phone-forward"></i> 获取方式</a> </li>
+			    <li> <a class="multitabs" href="/assetsStore"><i class="mdi mdi-map-marker"></i> 存放地点</a> </li>
+			   
+			  </ul>
+			</li>
+			
+			<li class="nav-item nav-item-has-subnav">
+			  <a shiro:hasRole="sys" href="javascript:void(0)"><i class="mdi mdi-emoticon-devil"></i> <span>超级管理员</span></a>
+			  <ul class="nav nav-subnav">
+			    <li> <a class="multitabs" href="/role"><i class="mdi mdi-account-edit"></i> 角色管理</a> </li>
+                  <li> <a class="multitabs" href="/departmentManage"><i class="mdi mdi-account-edit"></i> 部门管理</a> </li>
+                  <li> <a class="multitabs" href=""><i class="mdi mdi-cow"></i> 授权管理</a> </li>
+			    <li> <a class="multitabs" href="/PersonnelManage"><i class="mdi mdi-account-card-details"></i> 人员管理</a> </li>
+			    <li> <a class="multitabs" href=""><i class="mdi mdi-square-inc-cash"></i> 工资明细</a> </li>
+			   
+			  </ul>
+			</li>
+			
+			<li class="nav-item nav-item-has-subnav">
+			  <a  shiro:hasRole="sys" href="javascript:void(0)"><i class="mdi mdi-file-outline"></i> <span>资产审批</span></a>
+			  <ul class="nav nav-subnav">
+			    <li> <a class="multitabs" href="assetsRetirementSP">资产报废审批</a> </li>
+			    <li> <a class="multitabs" href="assetsSubscribeSP">资产申购审批</a> </li>
+			  </ul>
+			</li>
+        <dv class="sidebar-footer">
+          <p class="copyright">Copyright &copy; 2022. <a target="_blank" href="http://lyear.itshubao.com">elvt</a> All rights assest.</p>
+        </dv>
+          </ul>
+        </nav>
+      </div>
+    </aside>
+    <!--End 左侧导航-->
+    
+    <!--头部信息-->
+    <header class="lyear-layout-header">
+      
+      <nav class="navbar navbar-default">
+        <div class="topbar">
+          
+          <div class="topbar-left">
+            <div class="lyear-aside-toggler">
+              <span class="lyear-toggler-bar"></span>
+              <span class="lyear-toggler-bar"></span>
+              <span class="lyear-toggler-bar"></span>
+            </div>
+          </div>
+          
+          <ul class="topbar-right">
+            <li class="dropdown dropdown-profile">
+              <a href="javascript:void(0)" data-toggle="dropdown">
+                <img class="img-avatar img-avatar-48 m-r-10" th:src="${user.getPhoto()}"  />
+                <span> <span shiro:principal="" id="sss" ></span><span class="caret"></span></span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li> <a class="multitabs" data-url="lyear_pages_profile.html" th:href="@{/userinfo?jobid=}+${user.getJobid()}"><i class="mdi mdi-account"></i> 个人信息</a> </li>
+                <li> <a class="multitabs" data-url="lyear_pages_edit_pwd.html" href="javascript:void(0)"><i class="mdi mdi-lock-outline"></i> 修改密码</a> </li>
+                <li> <a href="javascript:void(0)"><i class="mdi mdi-delete"></i> 清空缓存</a></li>
+                <li class="divider"></li>
+                <li> <a href="/logout" id="logout"><i class="mdi mdi-logout-variant"></i> 退出登录 </a> </li>
+              </ul>
+            </li>
+            <!--切换主题配色-->
+		    <li class="dropdown dropdown-skin">
+			  <span data-toggle="dropdown" class="icon-palette"><i class="mdi mdi-palette"></i></span>
+			  <ul class="dropdown-menu dropdown-menu-right" data-stopPropagation="true">
+			    <li class="drop-title"><p>LOGO</p></li>
+				<li class="drop-skin-li clearfix">
+                  <span class="inverse">
+                    <input type="radio" name="logo_bg" value="default" id="logo_bg_1" checked>
+                    <label for="logo_bg_1"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="logo_bg" value="color_2" id="logo_bg_2">
+                    <label for="logo_bg_2"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="logo_bg" value="color_3" id="logo_bg_3">
+                    <label for="logo_bg_3"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="logo_bg" value="color_4" id="logo_bg_4">
+                    <label for="logo_bg_4"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="logo_bg" value="color_5" id="logo_bg_5">
+                    <label for="logo_bg_5"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="logo_bg" value="color_6" id="logo_bg_6">
+                    <label for="logo_bg_6"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="logo_bg" value="color_7" id="logo_bg_7">
+                    <label for="logo_bg_7"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="logo_bg" value="color_8" id="logo_bg_8">
+                    <label for="logo_bg_8"></label>
+                  </span>
+				</li>
+				<li class="drop-title"><p>头部</p></li>
+				<li class="drop-skin-li clearfix">
+                  <span class="inverse">
+                    <input type="radio" name="header_bg" value="default" id="header_bg_1" checked>
+                    <label for="header_bg_1"></label>                      
+                  </span>                                                    
+                  <span>                                                     
+                    <input type="radio" name="header_bg" value="color_2" id="header_bg_2">
+                    <label for="header_bg_2"></label>                      
+                  </span>                                                    
+                  <span>                                                     
+                    <input type="radio" name="header_bg" value="color_3" id="header_bg_3">
+                    <label for="header_bg_3"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="header_bg" value="color_4" id="header_bg_4">
+                    <label for="header_bg_4"></label>                      
+                  </span>                                                    
+                  <span>                                                     
+                    <input type="radio" name="header_bg" value="color_5" id="header_bg_5">
+                    <label for="header_bg_5"></label>                      
+                  </span>                                                    
+                  <span>                                                     
+                    <input type="radio" name="header_bg" value="color_6" id="header_bg_6">
+                    <label for="header_bg_6"></label>                      
+                  </span>                                                    
+                  <span>                                                     
+                    <input type="radio" name="header_bg" value="color_7" id="header_bg_7">
+                    <label for="header_bg_7"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="header_bg" value="color_8" id="header_bg_8">
+                    <label for="header_bg_8"></label>
+                  </span>
+				</li>
+				<li class="drop-title"><p>侧边栏</p></li>
+				<li class="drop-skin-li clearfix">
+                  <span class="inverse">
+                    <input type="radio" name="sidebar_bg" value="default" id="sidebar_bg_1" checked>
+                    <label for="sidebar_bg_1"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="sidebar_bg" value="color_2" id="sidebar_bg_2">
+                    <label for="sidebar_bg_2"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="sidebar_bg" value="color_3" id="sidebar_bg_3">
+                    <label for="sidebar_bg_3"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="sidebar_bg" value="color_4" id="sidebar_bg_4">
+                    <label for="sidebar_bg_4"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="sidebar_bg" value="color_5" id="sidebar_bg_5">
+                    <label for="sidebar_bg_5"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="sidebar_bg" value="color_6" id="sidebar_bg_6">
+                    <label for="sidebar_bg_6"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="sidebar_bg" value="color_7" id="sidebar_bg_7">
+                    <label for="sidebar_bg_7"></label>
+                  </span>
+                  <span>
+                    <input type="radio" name="sidebar_bg" value="color_8" id="sidebar_bg_8">
+                    <label for="sidebar_bg_8"></label>
+                  </span>
+				</li>
+			  </ul>
+			</li>
+            <!--切换主题配色-->
+          </ul>
+          
+        </div>
+      </nav>
+      
+    </header>
+    <!--End 头部信息-->
+    
+    <!--页面主要内容-->
+    <main class="lyear-layout-content">
+      
+      <div id="iframe-content"></div>
+      
+    </main>
+    <!--End 页面主要内容-->
+  </div>
+</div>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-multitabs/multitabs.js"></script>
+<script type="text/javascript" src="js/lightyear.js"></script>
+
+<script type="text/javascript" src="js/index.min.js"></script>
+<script src="js/vue.js"></script>
+
+<script src="plugins/elementui/index.js"></script>
+
+<script src="js/axios-0.18.0.js"></script>
+
+
+<script>
+    $(function() {
+        var s = $("#sss").val();
+        console.log(s)
+    })
+</script>
+<!--    <script>-->
+<!--        var vue = new Vue({-->
+<!--            el: '#app',-->
+<!--            data: {-->
+<!--                pickerOptions: {-->
+<!--                    disabledDate(time) {-->
+<!--                        return time.getTime() > Date.now();-->
+<!--                    },-->
+<!--                },-->
+<!--                multipleSelection: [],-->
+<!--                ids: [],-->
+<!--                errorMsg: '',-->
+<!--                dataList: [],//当前页要展示的列表数据-->
+<!--                optionsGenrecode: [],-->
+<!--                optionsSuaplct: [],//获取下拉信息-->
+<!--                dialogFormVisible: false,//添加表单是否可见-->
+<!--                dialogFormVisible4Edit: false,//编辑表单是否可见-->
+<!--                formData: {}-->
+<!--            },-->
+
+<!--        created() {-->
+
+<!--        },-->
+
+<!--        methods: {-->
+
+
+<!--        }-->
+
+
+<!--         })-->
+<!--                    </script>-->
+
+</div>
+</body>
+</html>

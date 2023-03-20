@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.virtue.mapper.BorrowedMapper">
+    <update id="updateruturndate" parameterType="com.virtue.pojo.Borrowed">
+    UPDATE borrowed SET returndate=#{returndate} ,is_valid='1',bz=#{bz} WHERE boid=#{boid}
+    </update>
+
+
+    <select id="findByPage" resultType="com.virtue.pojo.Borrowed">
+select  b.boid,b.waid,b.boorder,g.genrecode,w.waname,g.gname,b.bodate,p.pename,p.dename,b.bocause,b.returndate,b.is_valid FROM borrowed b INNER JOIN warehous w ON b.waid=w.waid INNER JOIN personnel p ON b.peid=p.peid INNER JOIN genre g ON g.gid=w.gid  ${ew.customSqlSegment}
+
+    </select>
+    <select id="findOneBySuid" resultType="com.virtue.pojo.Borrowed" parameterType="integer">
+select b.bz, b.boid,p.jobnub,b.boorder,g.genrecode,w.waname,g.gname,b.bodate,p.pename,p.dename,b.bocause,b.returndate,b.is_valid FROM borrowed b INNER JOIN warehous w ON b.waid=w.waid INNER JOIN personnel p ON b.peid=p.peid INNER JOIN genre g ON g.gid=w.gid WHERE b.boid=#{boid}
+
+    </select>
+    <select id="findAll" resultType="com.virtue.pojo.Borrowed">
+
+        select p.peid, b.boid,b.waid,b.boorder,g.genrecode,w.waname,g.gname,b.bodate,p.pename,p.dename,b.bocause,b.returndate,b.is_valid FROM borrowed b INNER JOIN warehous w ON b.waid=w.waid INNER JOIN personnel p ON b.peid=p.peid INNER JOIN genre g ON g.gid=w.gid  where b.is_valid=0
+
+    </select>
+    <select id="selectByPeid" resultType="com.virtue.pojo.Borrowed" parameterType="integer">
+
+        select * from borrowed  where peid=#{peid}
+    </select>
+</mapper>

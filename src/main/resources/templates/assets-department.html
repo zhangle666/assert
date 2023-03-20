@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>部门管理 - elvt(assets Year Admin)后台管理系统</title>
+  <link rel="icon" href="favicon.ico" type="image/ico">
+  <meta name="keywords" content="LightYear,">
+  <meta name="description" content="elvtAssets Admin是一个基于elem+vue 后台管理系统。">
+  <meta name="author" content="yinqi">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="css/style.min.css" rel="stylesheet">
+  <link href="js/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="plugins/elementui/index.css">
+  <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/stylee.css">
+  <style type="text/css">
+
+  </style>
+</head>
+
+<body>
+<div id="app">
+  <div class="container-fluid p-t-15">
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+
+
+            <div class="toolbar-btn-action">
+                <div shiro:hasAnyRoles="BOOS, developer,sys">
+              <button type="button" class="btn btn-primary m-r-5" @click="handleCreate()">
+                <i class="mdi mdi-plus"></i>
+                新增
+              </button>
+
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">新增类型</h4>
+                    </div>
+                    <!--  <div class="modal-body">
+                        您的内容...
+                      </div> -->
+
+
+                    <span style="color:   #204D74; font-size: 16px;margin-left: 10px;" >类别编码:</span><input class="form-control" type="email" id="example-if-email" name="example-if-email" placeholder="请输入编码类型.." style="width: 400px;" height="100px">
+                    <span style="color:  #204D74; font-size: 16px;margin-left: 10px;" >类别名称:<input class="form-control" type="password" id="example-if-password" name="example-if-password" placeholder="请输入类型名称.." style="width: 400px;">
+								<div class="danxuank">
+									<input type="radio" name="payMethod" value="1" /><span style="color: #0FB25F; font-size: 18px;" >启用</span>
+							   <input type="radio" name="payMethod" value="2" /><span style="color: red; font-size: 18px;">禁用</span>
+								</div>
+
+						  <div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary"data-dismiss="modal">点击保存</button>
+						  </div>
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+
+              <a   class="btn btn-success m-r-5" href="#!"><i class="mdi mdi-check"></i> 启用</a>
+              <a class="btn btn-warning m-r-5" href="#!"><i class="mdi mdi-block-helper"></i> 禁用</a>
+                <button type="button" class="btn btn-primary m-r-5" @click="deleteByIds"> <i class="mdi mdi-window-close"></i> 删除</button>  </div>
+            <div class="onselect" style="margin-left: 400px;margin-top: -20px">
+
+                <el-form :inline="true" :model="fromDatas" class="demo-form-inline">
+
+
+                    <el-form-item label="当前状态">
+                        <el-select v-model="fromDatas.isValid" placeholder="当前状态">
+                            <el-option label="所有" value=""></el-option>
+                            <el-option label="启用" value="1"></el-option>
+                            <el-option label="禁用" value="0"></el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <el-form-item label="部门名称">
+                        <el-input v-model="fromDatas.dename" placeholder="部门名称"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="部门编码">
+                        <el-input v-model="fromDatas.denub" placeholder="部门编码"></el-input>
+                    </el-form-item>
+
+                    <el-form-item>
+                        <el-button type="primary" @click="onSubmit">查询</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+      </div>
+
+          <div class="card-body">
+
+            <div class="table-responsive">
+
+              <el-table  ref="accountTable" size=""  current-row-key="id" :data="dataList" border style="width: 100%"  @selection-change="handleSelectionChange" >
+                  <el-table-column type="selection" width="55"></el-table-column>
+                  <el-table-column type="index" label="序号" width="50"></el-table-column>
+                  <el-table-column prop="denub" label="部门编码" align="center" ></el-table-column>
+                <el-table-column prop="dename" label="部门名称" align="center" ></el-table-column>
+                  <el-table-column prop="uptime" label="更新时间" align="center" ></el-table-column>
+                  <el-table-column label="状态"
+                        width="80">
+                  <template slot-scope="scope">
+                    <span v-if="scope.row.isValid == 1" style="color: #0FB25F">正常</span>
+                    <span v-else style="color: red">停用</span>
+                  </template>
+                </el-table-column>
+                  <a shiro:hasAnyRoles="BOOS, developer,sys">
+·                   <el-table-column prop="isValid" header-align="center" align="center" label="修改状态">
+
+                  <template slot-scope="scope">
+                      <el-switch
+                              v-model="scope.row.isValid"
+                              active-color="#13ce66"
+                              inactive-color="#ff4949"
+                              :active-value="1"
+                              :inactive-value="0"
+                              @change="updateGenresStatus($event,scope.row)">
+                      </el-switch>
+                            </template>
+
+              </el-table-column>
+                  </a>
+
+                <el-table-column label="操作" align="center">
+
+                  <template slot-scope="scope">
+                     <a shiro:hasAnyRoles="BOOS, developer,sys">
+                      <el-button type="primary" icon="el-icon-edit" circle @click="handleUpdate(scope.row)"></el-button>
+                      <el-button type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"></el-button>
+  </a>
+                  </template>
+
+
+
+                </el-table-column>
+              </el-table>
+
+            </tbody>
+
+
+          </div>
+          <!--分页组件-->
+          <div class="pagination-container">
+
+            <el-pagination
+                    class="pagiantion"
+
+                    @current-change="handleCurrentChange"
+
+                    :current-page="pagination.currentPage"
+
+                    :page-size="pagination.pageSize"
+
+                    layout="total, prev, pager, next, jumper"
+
+                    :total="pagination.total">
+
+            </el-pagination>
+          </div>
+
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+    </div>
+    <div class="add-form">
+
+        <el-dialog title="编辑检查项" :visible.sync="dialogFormVisible4Edit">
+
+            <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
+
+                <el-row>
+
+                    <el-col :span="12">
+
+                        <el-form-item label="部门编码" prop="denub">
+
+                            <el-input v-model="formData.denub"/>
+
+                        </el-form-item>
+
+                    </el-col>
+
+                    <el-col :span="15">
+                        <el-form-item label="部门名称" prop="dename">
+
+                            <el-input v-model="formData.dename"/>
+
+                        </el-form-item>
+
+                    </el-col>
+
+
+                </el-row>
+
+                <el-row>
+                    <el-form-item label="启用或者禁用">
+                    <template slot-scope="scope">
+                        <el-switch
+                                v-model="formData.isValid"
+                                active-color="#13ce66"
+                                inactive-color="#ff4949"
+                                :active-value="1"
+                                :inactive-value="0"
+                                >
+                        </el-switch>
+                    </template>
+                    </el-form-item>
+         </el-row>
+
+            </el-form>
+
+            <div slot="footer" class="dialog-footer">
+
+                <el-button @click="cancels()">取消</el-button>
+
+                <el-button type="primary" @click="handleEdit()">确定</el-button>
+
+            </div>
+
+        </el-dialog>
+
+        <div class="add-form">
+
+            <el-dialog title="新增部门" :visible.sync="dialogFormVisible" >
+
+                    <el-form ref="dataAddForm" :model="formData" :rules="rules"  label-position="right" label-width="100px">
+
+                    <el-row>
+
+                        <el-col :span="15">
+
+                            <el-form-item label="部门编码" prop="denub">
+
+                                <el-input   v-model="formData.denub"  @blur="adddecheck" autocomplete="off"/>
+                            </el-form-item>
+
+                        </el-col>
+                    </el-row>
+                        <el-row>
+                        <el-col :span="12">
+
+                            <el-form-item label="部门名称" prop="dename">
+
+                                <el-input v-model="formData.dename"/>
+
+                            </el-form-item>
+
+                        </el-col>
+
+                    </el-row>
+
+
+                    <el-row>
+                        <el-form-item label="启用或者禁用">
+                            <template slot-scope="scope">
+                                <el-switch
+                                        v-model="formData.isValid"
+                                        active-color="#13ce66"
+                                        inactive-color="#ff4949"
+                                        :active-value="1"
+                                        :inactive-value="0">
+                                </el-switch>
+                            </template>
+                        </el-form-item>
+                    </el-row>
+
+                </el-form>
+
+                <div slot="footer" class="dialog-footer">
+
+                    <el-button @click="cancel()">取消</el-button>
+
+                    <el-button type="primary" @click="handleAdd()">确定</el-button>
+
+                </div>
+
+            </el-dialog>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+</div>
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/main.min.js"></script>
+<script src="js/vue.js"></script>
+
+<script src="plugins/elementui/index.js"></script>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script src="js/axios-0.18.0.js"></script>
+<script type="text/javascript">
+  $(function(){
+    $('.search-bar .dropdown-menu a').click(function() {
+      var field = $(this).data('field') || '';
+      $('#search-field').val(field);
+      $('#search-btn').html($(this).text() + ' <span class="caret"></span>');
+    });
+  });
+</script>
+<script>
+  var vue = new Vue({
+      el: '#app',
+      data: {
+          multipleSelection: [],
+          ids:[],
+          errorMsg:'',
+          dataList: [],//当前页要展示的列表数据
+          dialogFormVisible: false,//添加表单是否可见
+          dialogFormVisible4Edit: false,//编辑表单是否可见
+          formData: {deid:"",denub:"",dename:"" ,isValid:"",uptime:""},
+          fromDatas:{deid:"",denub:"",dename:"" ,isValid:"",uptime:""}, //表单数据
+          rules: {//校验规则
+              denub: [{required: true, message: "部门编码不能为空", trigger: 'blur'},
+                  {
+                      min: 3,
+                      max: 10,
+                      message: '名字在 3 到 10 个字符',
+                      trigger: 'blur'
+                  },
+                  {
+                      validator: function (rule, value, callback) {
+                          if (/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{4,20}$/.test(value) == false) {
+                              callback(new Error("要输入数字和字母"));
+                          } else {
+                              callback();
+                          }
+                      }
+                  }],
+
+              dename: [{required: true, message: '部门名称不能为空', trigger: 'blur'},{
+                  min: 4,
+                  max: 10,
+                  message: '长度在 3 到 10 个字符',
+                  trigger: 'blur'
+              },
+                  {
+                      validator: function (rule, value, callback) {
+                          if (/^[\u4e00-\u9fa5]{0,}$/.test(value) == false) {
+                              callback(new Error("只允许出现中文"));
+                          } else {
+                              callback();
+                          }
+                      }
+                  }]
+          },
+          pagination: {//分页相关模型数据
+              currentPage: 1,//当前页码
+              pageSize: 10,//每页显示的记录数
+              total: 0,//总记录数
+              type: "",
+              name: "",
+              desciption: ""
+          },
+      },
+
+      //钩子函数，VUE对象初始化完成后自动执行
+      created() {
+          this.getAll();
+      },
+
+      methods: {
+
+          getAll() {
+              var _this=this
+              axios({
+                method: "post",
+                url: "/department/" + this.pagination.currentPage + "/" + this.pagination.pageSize,
+                  dataType:'json',
+                data:this.fromDatas
+          }).then((res) => {
+                  this.pagination.pageSize = res.data.data.size;
+                  this.pagination.currentPage = res.data.data.current;
+                  this.pagination.total = res.data.data.total;
+                  this.dataList = res.data.data.records;
+              });
+          },
+          handleCurrentChange(currentPage) {
+              this.pagination.currentPage = currentPage;
+              this.getAll();
+          },
+
+          //弹出添加窗口
+          handleCreate() {
+              this.dialogFormVisible = true;
+              this.resetForm();
+
+          },
+
+          //重置表单
+          resetForm() {
+              this.formData = {};
+          },
+
+          //添加
+          handleAdd() {
+              this.$refs.dataAddForm.validate((valid)=>{
+                  if (valid) {
+                      axios.post("/department", this.formData).then((res) => {
+                          if (res.data.success) {
+                              this.dialogFormVisible = false;
+                              this.$message.success("添加成功")
+                          } else {
+                              this.dialogFormVisible = false;
+                              this.$message.error(res.data.msg);
+                          }
+                          //1.关闭弹窗
+                      }).finally(() => {
+                              this.getAll();
+                          });    }
+                  //2.重新加载数据
+
+
+              })
+          },
+
+          //取消
+          cancel() {
+              this.dialogFormVisible = false;
+              this.$message.info("当前操作取消");
+          },
+          cancels(){
+              this.dialogFormVisible4Edit = false;
+              this.$message.info("当前操作取消");
+          },
+          // 删除
+          handleDelete(row) {
+              this.$confirm("！！！删除该部门要确保无业务关联", "温馨提示", {type: "info"}).then(() => {
+                  axios.delete("/department/" + row.deid).then((res) => {
+                      if (res.data.success) {
+                          this.$message.success("删除成功")
+                      } else {
+                          this.$message.error("删除失败");
+                      }
+
+                  }).finally(() => {
+                      this.getAll();
+                  });
+              }).catch(() => {
+                  this.$message.info("取消操作");
+              });
+          },
+
+          //获取数据，弹出编辑窗口
+          handleUpdate(row) {
+              axios.get("/department/" + row.deid).then((res) => {
+                  if (res.data.success && res.data.data != null) {
+                      this.dialogFormVisible4Edit = true;
+                      this.formData = res.data.data;
+                  } else {
+                      this.$message.error("当前数据不存在");
+                  }
+
+              }).catch(() => {
+                  this.getAll();
+              })
+          },
+
+          //修改
+          handleEdit() {
+              axios.put("/department/", this.formData).then((res) => {
+                  if (res.data.success) {
+                      this.dialogFormVisible4Edit = false;
+                      this.$message.success("修改成功")
+                  }
+
+              }).finally(() => {
+                  this.getAll();
+              })
+          },
+
+
+
+          updateGenresStatus($event, row) {
+              this.$confirm("是否修改状态", "温馨提示", {type: "info"}).then(() => {
+              axios.put("/department/" + row.deid + "/" + row.isValid).then((res) => {
+                  if (res.data.success) {
+                      this.$message.success("修改成功")
+                  } else {
+                      this.$message.error("删除失败");
+                  }
+              })
+
+          }).catch(() => {
+                  this.getAll();
+                  this.$message.info("取消操作");
+              })
+          },
+
+          handleSelectionChange(val) {
+              this.multipleSelection =val
+              console.log(this.multipleSelection)
+          },
+          deleteByIds() {
+              for (let i = 0; i < this.multipleSelection.length; i++) {
+                  let selectionElement = this.multipleSelection[i];
+                  this.selectedIds[i] = selectionElement.id;
+
+              }
+              genres=this.multipleSelection
+var _this=this
+                  axios({
+                      method:"post",
+                      url:"/department",
+                      data: _this.selectedIds
+                  }).then(function (resp) {
+
+                      if(resp.data == "success"){
+                          //删除成功
+
+                          // 重新查询数据
+                          // 弹出消息提示
+                          _this.$message({
+                              message: '恭喜你，删除成功',
+                              type: 'success'
+                          });
+
+                      }
+                  })
+
+
+
+          },
+          onSubmit() {
+              this.$confirm("是否查询？", "温馨提示", {type: "info"}).then(() => {
+              this.getAll();
+              }).catch(() => {
+                  this.$message.info("取消操作");
+              });
+          },
+
+          adddecheck() {
+              this.errorMsg = '';
+              var msgg="当前用户信息存在，请检查";
+              axios({
+                  method: "post",
+                  url: "/department/checkform",
+                  data: this.formData
+              }).then(function (resp) {
+                  if (resp.data.success) {
+                this.errorMsg=resp.data.msg
+                        alert(msgg)
+
+                  }
+              })
+          }
+      }
+
+  })
+
+</script>
+</body>
+</html>

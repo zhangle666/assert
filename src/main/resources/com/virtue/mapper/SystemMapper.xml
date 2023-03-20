@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.virtue.mapper.SystemMapper">
+
+        <insert id="register" parameterType="com.virtue.pojo.User" useGeneratedKeys="true" keyProperty="jobid">
+        insert into user(jobid,username,password,salt,email,is_valid,activation_time,confirm_code) values(#{jobid},#{username},#{password},#{salt},#{email},#{isValid},#{activationTime},#{confirmCode})
+    </insert>
+
+        <select id="findByUserName" resultType="com.virtue.pojo.User" parameterType="string">
+        select photo,jobid,username,password,salt,gender,age,tel,is_valid,address from user
+        where username=#{username} or jobid=#{username} or email=#{username}
+    </select>
+
+
+
+
+    <resultMap id="userMap" type="com.virtue.pojo.User">
+        <id column="uid" property="jobid"/>
+        <result column="username" property="username"/>
+        <!--角色信息-->
+        <collection property="roles" javaType="list" ofType="com.virtue.pojo.Role">
+            <id column="id" property="id"/>
+            <result column="rname" property="name"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="findRolesByUserName" parameterType="String" resultMap="userMap">
+  SELECT u.jobid as uid,u.username,r.id,r.NAME as rname
+  FROM user u
+  LEFT JOIN t_user_role ur
+  ON u.jobid=ur.userid
+  LEFT JOIN t_role r
+  ON ur.roleid=r.id
+  WHERE u.username=#{username}
+</select>
+    <select id="findPermsByRole"  parameterType="string" resultType="com.virtue.pojo.Perms">
+SELECT p.id,p.NAME,p.url,r.name
+        FROM t_role r
+         LEFT JOIN t_powers_role rp
+           ON r.id=rp.roleid
+           LEFT JOIN t_powers p ON rp.powersid=p.id
+        WHERE r.id=#{id}
+
+    </select>
+    <select id="selectByJobid" resultType="com.virtue.pojo.User" parameterType="string">
+   select username,gender,jobid,email,age,tel,address,u.deid,photo,r.details,d.dename from user u  INNER JOIN t_user_role ur ON u.jobid=ur.userid INNER JOIN t_role r ON ur.roleid=r.id INNER JOIN department d ON u.deid=d.deid where jobid=#{jobid}
+    </select>
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com/virtue/mapper/BorrowedMapper.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com/virtue/mapper/MaintainMapper.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com/virtue/mapper/PersonnelMapper.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com/virtue/mapper/RetirementMapper.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com/virtue/mapper/SubscribeMapper.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com/virtue/mapper/SystemMapper.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com/virtue/mapper/TransferMapper.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com/virtue/mapper/UserMapper.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com/virtue/mapper/WarehousMapper.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/css/stylee.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/fonts" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/images" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/js/axios-0.18.0.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/js/index.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/js/jquery.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/js/vue.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/FETCH_HEAD" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/LICENSE" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assest-Aca.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assest-Genre.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-Achieve.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-Borrowed.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-Brand.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-Maintain.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-MaintainWX.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-Retirement.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-RetirementSP.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-Scrap.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-Store.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-Subscribe.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-SubscribeSP.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-Supplier.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-Transfer.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-UserMa.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-Warehous.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-department.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/assets-personnel.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/favicon.ico" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/index.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/login.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/overview.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/register.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/registerSussets.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/userManage.html" charset="GBK" />
+  </component>
+</project>

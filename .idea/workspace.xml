@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8bc3b20e-04a1-4d02-bb6c-053b264df9d3" name="变更" comment="Delete MyByteSource.java" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="HTML File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="userSettingsFile" value="D:\Maven\apache-maven-3.8.6\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="27dA3Wrt9ueZ3RAyssMpflbxgDs" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/zhang/Desktop/assert&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;a4fd9535e3a04a33150dd494a04eb708&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.virtue.mapper" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\JavaWebProject\springboot-assets\src\main\resources\templates" />
+      <recent name="E:\JavaWebProject\springboot-assets\src\main\resources\com\virtue\mapper" />
+      <recent name="E:\JavaWebProject\springboot-assets\src\main\resources\static\js" />
+      <recent name="E:\JavaWebProject\springboot-assets\src\main\resources\static\css" />
+      <recent name="E:\JavaWebProject\springboot-assets\src\main\resources\static" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.virtue.utils" />
+      <recent name="com.virtue.controller" />
+      <recent name="com.virtue.service.impl" />
+      <recent name="com.virtue.service" />
+      <recent name="com.virtue.mapper" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\JavaWebProject\springboot-assets\src\main\resources\static\css" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.SpringbootAssetsApplication">
+    <configuration name="Genres" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.virtue.pojo.Genres" />
+      <module name="springboot-assets" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.virtue.pojo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootAssetsApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="springboot-assets" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.virtue.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.virtue" />
+      <option name="MAIN_CLASS_NAME" value="com.virtue.SpringbootAssetsApplicationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootAssetsApplicationTests.contextLoads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="springboot-assets" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.virtue.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.virtue" />
+      <option name="MAIN_CLASS_NAME" value="com.virtue.SpringbootAssetsApplicationTests" />
+      <option name="METHOD_NAME" value="contextLoads" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootAssetsApplicationTests.test1" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="springboot-assets" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.virtue.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.virtue" />
+      <option name="MAIN_CLASS_NAME" value="com.virtue.SpringbootAssetsApplicationTests" />
+      <option name="METHOD_NAME" value="test1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootAssetsApplicationTests.test2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="springboot-assets" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.virtue.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.virtue" />
+      <option name="MAIN_CLASS_NAME" value="com.virtue.SpringbootAssetsApplicationTests" />
+      <option name="METHOD_NAME" value="test2" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootAssetsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="springboot-assets" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.virtue.SpringbootAssetsApplication" />
+      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.SpringbootAssetsApplicationTests.test1" />
+      <item itemvalue="JUnit.SpringbootAssetsApplicationTests" />
+      <item itemvalue="JUnit.SpringbootAssetsApplicationTests.contextLoads" />
+      <item itemvalue="JUnit.SpringbootAssetsApplicationTests.test2" />
+      <item itemvalue="Spring Boot.SpringbootAssetsApplication" />
+      <item itemvalue="应用程序.Genres" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.SpringbootAssetsApplicationTests.test2" />
+        <item itemvalue="JUnit.SpringbootAssetsApplicationTests.contextLoads" />
+        <item itemvalue="JUnit.SpringbootAssetsApplicationTests" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\zhang\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8bc3b20e-04a1-4d02-bb6c-053b264df9d3" name="变更" comment="" />
+      <created>1649639390333</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1649639390333</updated>
+      <workItem from="1649639393894" duration="40193000" />
+      <workItem from="1649693386202" duration="1782000" />
+      <workItem from="1649724476398" duration="22889000" />
+      <workItem from="1649759139282" duration="170000" />
+      <workItem from="1649759323140" duration="5770000" />
+      <workItem from="1649777308749" duration="107000" />
+      <workItem from="1649777530390" duration="1430000" />
+      <workItem from="1649816727018" duration="15295000" />
+      <workItem from="1649861497150" duration="3226000" />
+      <workItem from="1649917378833" duration="17309000" />
+      <workItem from="1649950476298" duration="545000" />
+      <workItem from="1650004219645" duration="8518000" />
+      <workItem from="1650014146231" duration="5000" />
+      <workItem from="1650014552693" duration="9234000" />
+      <workItem from="1650078586868" duration="51000" />
+      <workItem from="1650078652153" duration="71000" />
+      <workItem from="1650094383162" duration="651000" />
+      <workItem from="1650170728723" duration="5698000" />
+      <workItem from="1650188443573" duration="19072000" />
+      <workItem from="1650240250153" duration="14215000" />
+      <workItem from="1650257645663" duration="23402000" />
+      <workItem from="1650781637526" duration="23834000" />
+      <workItem from="1650845445002" duration="2836000" />
+      <workItem from="1650852456549" duration="19440000" />
+      <workItem from="1650888613629" duration="36424000" />
+      <workItem from="1650966774989" duration="4000" />
+      <workItem from="1650970097166" duration="27258000" />
+      <workItem from="1651047015059" duration="11380000" />
+      <workItem from="1651063574199" duration="1000" />
+      <workItem from="1651110467127" duration="18726000" />
+      <workItem from="1651199295519" duration="6798000" />
+      <workItem from="1651229489904" duration="2000" />
+      <workItem from="1651380393866" duration="13594000" />
+      <workItem from="1651551463210" duration="19727000" />
+      <workItem from="1651639594693" duration="19878000" />
+      <workItem from="1651717426411" duration="31623000" />
+      <workItem from="1651814153078" duration="10106000" />
+      <workItem from="1651889819670" duration="31378000" />
+      <workItem from="1651934358165" duration="8400000" />
+      <workItem from="1651976311962" duration="39402000" />
+      <workItem from="1652054491316" duration="3165000" />
+      <workItem from="1652057716790" duration="332000" />
+      <workItem from="1652058141931" duration="4776000" />
+      <workItem from="1652088360950" duration="6000" />
+      <workItem from="1652452793225" duration="60000" />
+      <workItem from="1652453427302" duration="1212000" />
+      <workItem from="1652527214779" duration="56000" />
+      <workItem from="1652527707821" duration="761000" />
+      <workItem from="1652529902415" duration="72000" />
+      <workItem from="1652544254726" duration="1030000" />
+      <workItem from="1652546536405" duration="218000" />
+      <workItem from="1652578620184" duration="813000" />
+      <workItem from="1652659615110" duration="1302000" />
+      <workItem from="1652674513805" duration="50000" />
+      <workItem from="1652885720879" duration="402000" />
+      <workItem from="1652960586767" duration="1242000" />
+      <workItem from="1652965223116" duration="11000" />
+      <workItem from="1653064437922" duration="1623000" />
+      <workItem from="1653097186571" duration="3590000" />
+      <workItem from="1653184240440" duration="670000" />
+      <workItem from="1653361698946" duration="116000" />
+      <workItem from="1653976103358" duration="3156000" />
+      <workItem from="1654071641832" duration="111000" />
+      <workItem from="1655168171626" duration="9000" />
+      <workItem from="1655168372280" duration="706000" />
+      <workItem from="1655201472790" duration="1944000" />
+      <workItem from="1655261228882" duration="8000" />
+      <workItem from="1656132430369" duration="1312000" />
+      <workItem from="1679229566540" duration="2275000" />
+      <workItem from="1679232140143" duration="1237000" />
+      <workItem from="1679233401204" duration="1105000" />
+      <workItem from="1679282866760" duration="70000" />
+      <workItem from="1679283101589" duration="363000" />
+      <workItem from="1679320008036" duration="752000" />
+      <workItem from="1679322204794" duration="20000" />
+    </task>
+    <task id="LOCAL-00001" summary="Delete MyByteSource.java">
+      <created>1679321642522</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1679321642522</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+    <MESSAGE value="Delete MyByteSource.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="Delete MyByteSource.java" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

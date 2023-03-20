@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>资产报废 - 美德(elvt Year Admin)后台管理系统</title>
+  <link rel="icon" href="favicon.ico" type="image/ico">
+  <meta name="keywords" content="LightYear,">
+  <meta name="description" content="elvtAssets Admin是一个基于elem+vue 后台管理系统。">
+  <meta name="author" content="yinqi">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="css/style.min.css" rel="stylesheet">
+  <link href="js/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="plugins/elementui/index.css">
+  <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/stylee.css">
+  <style type="text/css">
+        .sss1 p{
+            font-size: 17px;
+            color: #1D1E2F;
+            margin-left: 130px;
+            padding-top: 20px;
+
+        }
+      .sss1 p1{
+          color: #8c909a;
+          font-size: 15px;
+
+      }
+        .sss1 p6{
+            color: #8c909a;
+            font-size: 15px;
+            padding-left: 250px;
+        }
+      .sss1 h1{
+          margin-left: 40px;
+      }
+      .sss1 p2{
+          font-size: 17px;
+          color: #1D1E2F;
+          margin-left: 130px;
+      }.sss1 p3{
+                 font-weight: bolder;
+             }
+      .sss1 h2{
+          font-size: 17px;
+          margin-left: 90px;
+      }
+
+
+  </style>
+    <style lang="scss">
+        .el-dialog__header{
+            border-bottom: 1px solid #e8eaec;
+            background-color: #0997F7;
+            color: #fff;
+        }
+        .el-dialog__footer {
+            border-top: 1px solid #e8eaec;
+        }
+    </style>
+
+</head>
+
+<body>
+<div id="app">
+  <div class="container-fluid p-t-15">
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+
+
+            <div class="toolbar-btn-action">
+<!--                <div shiro:hasAnyRoles="BOOS, developer,sys">-->
+              <button type="button" class="btn btn-primary m-r-5" @click="handleCreate()">
+                <i class="mdi mdi-plus"></i>
+                报废登记
+              </button>
+
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">新增类型</h4>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+
+<!--              <a   class="btn btn-success m-r-5" href="#!"><i class="mdi mdi-check"></i> 启用</a>-->
+<!--              <a class="btn btn-warning m-r-5" href="#!"><i class="mdi mdi-block-helper"></i> 禁用</a>-->
+<!--                <button type="button" class="btn btn-primary m-r-5" @click="deleteByIds"> <i class="mdi mdi-window-close"></i> 删除</button>  </div>-->
+            <div class="onselect" style="margin-left: 200px;margin-top: -20px">
+
+                <el-form :inline="true" :model="fromDatas" class="demo-form-inline">
+
+                    <el-form-item label="归还状态">
+                        <el-select v-model="fromDatas.isValid" placeholder="当前状态">
+                            <el-option label="所有" value=""></el-option>
+                            <el-option label="启用" value="1"></el-option>
+                            <el-option label="禁用" value="0"></el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <el-form-item label="报废方式">
+                        <el-select v-model="fromDatas.scnames" style="width: 170px">
+                            <el-option
+                                    v-for="item in optionsScrap"
+                                    :key="item.scnames"
+                                    :label="item.scnames"
+                                    :value="item.scnames">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="申请人">
+                        <el-input v-model="fromDatas.pename" placeholder="申请人"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="资产类别">
+                        <el-select v-model="fromDatas.gname" style="width: 170px">
+                            <el-option
+                                    v-for="item in optionsGenrecode"
+                                    :key="item.gname"
+                                    :label="item.gname"
+                                    :value="item.gname">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="onSubmit">查询</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+      </div>
+
+          <div class="card-body">
+
+            <div class="table-responsive">
+
+              <el-table  ref="accountTable" size=""  current-row-key="id" :data="dataList" border style="width: 100%"  @selection-change="handleSelectionChange" >
+                  <el-table-column type="selection" width="55"></el-table-column>
+                  <el-table-column type="index" label="序号" align="center" width="55"></el-table-column>
+<!--                  <el-table-column prop="boorder" label="资产编码" align="center" ><template slot-scope="scope"> <a href="" onclick="return false"><div class="blue-font-color" @click="findSbureibeBySuorder(scope.row)">{{ scope.row.boorder }}</div></a> </template></el-table-column>-->
+                  <el-table-column prop="genrecode" label="资产编码" align="center" ></el-table-column>
+                <el-table-column prop="waname" label="资产名称" align="center" ></el-table-column>
+                  <el-table-column prop="gname" label="资产类别" align="center" ></el-table-column>
+                  <el-table-column prop="pename" label="申请人" align="center" ></el-table-column>
+                  <el-table-column prop="redate" label="报废日期" align="center" ></el-table-column>
+                  <el-table-column prop="scnames" label="报废方式" align="center" ></el-table-column>
+                  <el-table-column prop="reason" label="报废原因" align="center" ></el-table-column>
+                  <el-table-column label="状态"
+                                   width="80">
+                      <template slot-scope="scope">
+                          <span v-if="scope.row.isValid == 1" style="color: #0FB25F">未报废</span>
+                          <span v-if="scope.row.isValid == 2" style="color: #f0ad4e">待审批</span>
+                          <span v-if="scope.row.isValid == 6" style="color: #0abdfe">已驳回，不通过</span>
+                          <span v-if="scope.row.isValid == 0" style="color: #f0ad4e">已经报废</span>
+
+                      </template>
+                  </el-table-column>
+                <el-table-column label="操作" align="center">
+
+                  <template slot-scope="scope">
+<!--                     <a shiro:hasAnyRoles="BOOS, developer,sys">-->
+                      <el-button type="primary" icon="el-icon-edit" circle @click="findSbureibeBySuorder(scope.row)">查看</el-button>
+                      <el-button type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row)"></el-button>
+<!--  </a>-->
+                  </template>
+
+
+
+                </el-table-column>
+              </el-table>
+
+            </tbody>
+
+
+          </div>
+          <!--分页组件-->
+          <div class="pagination-container">
+
+            <el-pagination
+                    class="pagiantion"
+
+                    @current-change="handleCurrentChange"
+
+                    :current-page="pagination.currentPage"
+
+                    :page-size="pagination.pageSize"
+
+                    layout="total, prev, pager, next, jumper"
+
+                    :total="pagination.total">
+
+            </el-pagination>
+          </div>
+
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+    </div>
+    <div class="add-form">
+
+
+        <el-dialog title="报废详情单" :visible.sync="Subscriptiondetails" >
+            <div class="sss1">
+                <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
+
+                    <el-row>
+
+
+
+                        <h1 style="font-size: 18px;color: #1D1E2F;font-weight: bold;" >资产信息</h1>
+                        <HR SIZE=1 color="#CCCCCC" width="90%" >
+                        <p >资产名称 : <p1>{{formData.waname}}</p1> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;资产类型 : <p1>{{formData.gname}}</p1> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;资产编码 : <p1>{{formData.genrecode}}</p1>
+                        </p>
+                        <p >供应商 : <p1>{{warehousData.supname}}</p1> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;品牌 : <p1>{{warehousData.brname}}</p1> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;取得方式 : <p1>{{warehousData.acname}}</p1>
+                        </p>
+                        <p >存放地点 : <p1>{{warehousData.stname}}</p1> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入库日期 : <p1>{{warehousData.wadate}}</p1> </p1>
+                        </p>
+
+                        <h1 style="font-size: 18px;color: #1D1E2F;font-weight: bold;" >报废信息</h1>
+                        <HR SIZE=1 color="#CCCCCC"  width="90%">
+                        <p2>报废方式 ：<p3>{{formData.scnames}}</p3></p2>
+                        <p> 申请人： {{formData.pename}}({{formData.jobnub}})
+                        <p>报废日期 ： {{formData.redate}}
+                        <p>报废原因 ：{{formData.reason}}
+                        <p>报废申请结果 ：{{formData.approvalre}}
+                    </el-row>
+
+
+                </el-form>
+            </div>
+            <div slot="footer" class="dialog-footer">
+
+                <el-button @click="cancelssu()">关闭</el-button>
+
+            </div>
+
+        </el-dialog>
+
+
+    </div>
+
+        <div class="add-form">
+        <el-dialog title="报废修改" :visible.sync="dialogFormVisible4Edit">
+
+            <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
+
+                <el-row>
+                    <el-col :span="7">
+                        <el-form-item label="归还日期" prop="sunub">
+                            <el-date-picker type="date" v-model="formData.returndate"  value-format="yyyy-MM-dd"  placeholder="选择时间":picker-options="pickerOptions"></el-date-picker>
+
+                        </el-form-item>   </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="7">
+
+                        <el-form-item label="备注" prop="sunub">
+                            <el-input
+                                    type="textarea"
+                                    :autosize="{ minRows: 2, maxRows: 4}"
+                                    placeholder="请输入"
+                                    v-model="formData.bz" style="width: 350px">
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+
+            </el-form>
+
+            <div slot="footer" class="dialog-footer">
+
+                <el-button @click="cancels()">取消</el-button>
+
+                <el-button type="primary" @click="handleEdit()">确定</el-button>
+
+            </div>
+
+        </el-dialog>
+
+        <div class="add-form">
+
+            <el-dialog title="报废登记" :visible.sync="dialogFormVisible" >
+
+                    <el-form ref="dataAddForm" :model="formData" :rules="rules"  label-position="right" label-width="100px">
+
+                    <el-row>
+
+
+
+                            <el-form-item label="资产名称" prop="waid">
+                                <el-select v-model="formData.waid" style="width: 170px">
+                                    <el-option
+                                            v-for="item in optionsWarehous"
+                                            :key="item.waname"
+                                            :label="item.waname"
+                                            :value="item.waid">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                    </el-row>
+                        <el-form-item label="申请人" prop="peid">
+                            <el-select v-model="formData.peid" style="width: 250px">
+                                <el-option
+                                        v-for="item in optionsPersonnel"
+                                        :key="item.pename"
+                                        :label="item.pename"
+                                        :value="item.peid">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-row>
+                        </el-row>
+                        <el-form-item label="报废方式" prop="scid">
+                            <el-select v-model="formData.scid" style="width: 250px">
+                                <el-option
+                                        v-for="item in optionsScrap"
+                                        :key="item.scnames"
+                                        :label="item.scnames"
+                                        :value="item.scid">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-row>
+                            <el-col :span="7">
+                                <el-form-item label="报废日期" prop="redate">
+                                <el-date-picker type="date" v-model="formData.redate"  value-format="yyyy-MM-dd"  placeholder="选择时间":picker-options="pickerOptions"></el-date-picker>
+
+                                </el-form-item>   </el-col>
+                            </el-row>
+
+                        <el-row>
+                            <el-col :span="7">
+
+                                <el-form-item label="报废理由" prop="reason">
+                            <el-input
+                                    type="textarea"
+                                    :autosize="{ minRows: 2, maxRows: 4}"
+                                    placeholder="请输入申请理由"
+                                    v-model="formData.reason" style="width: 350px">
+                            </el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+
+                </el-form>
+
+                <div slot="footer" class="dialog-footer">
+
+                    <el-button @click="cancel()">取消</el-button>
+
+                    <el-button type="primary" @click="handleAdd()">确定</el-button>
+
+                </div>
+
+            </el-dialog>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+  </div>
+</div>
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/main.min.js"></script>
+<script src="js/vue.js"></script>
+
+<script src="plugins/elementui/index.js"></script>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script src="js/axios-0.18.0.js"></script>
+<script type="text/javascript">
+  $(function(){
+    $('.search-bar .dropdown-menu a').click(function() {
+      var field = $(this).data('field') || '';
+      $('#search-field').val(field);
+      $('#search-btn').html($(this).text() + ' <span class="caret"></span>');
+    });
+  });
+</script>
+<script>
+  var vue = new Vue({
+      el: '#app',
+      data: {
+          pickerOptions: {
+              disabledDate(time) {
+                  return time.getTime() > Date.now();
+              },
+          },
+          multipleSelection: [],
+          ids:[],
+          errorMsg:'',
+          dataList: [],//当前页要展示的列表数据
+          optionsScrap: [],
+          optionsWarehous: [],
+          optionsPersonnel:[],
+          optionsGenrecode:[],
+          optionsSuaplct: [],//获取下拉信息
+          dialogFormVisible: false,//添加表单是否可见
+          dialogFormVisible4Edit: false,//编辑表单是否可见
+          Subscriptiondetails:false,
+          formData: {},
+          updateData:{},
+          fromDatas:{},
+          warehousData:{},//表单数据
+
+          rules: {//校验规则
+              reason: [{required: true, message: "报废理由不能为空", trigger: 'blur'}, {
+                  min: 2,
+                  max: 200,
+                  message: '长度在 3 到 200 个字符',
+                  trigger: 'blur'
+              }],
+              waid: [{required: true, message: '资产名称不能为空', trigger: 'blur'}],
+              peid: [{required: true, message: '申请人不能为空', trigger: 'blur'}],
+              scid: [{required: true, message: '报废方式不能为空', trigger: 'blur'}],
+              redate: [{required: true, message: '报废日期不能为空', trigger: 'blur'}]
+          },
+          pagination: {//分页相关模型数据
+              currentPage: 1,//当前页码
+              pageSize: 10,//每页显示的记录数
+              total: 0,//总记录数
+              type: "",
+              name: "",
+              desciption: ""
+          },
+      },
+
+      //钩子函数
+      created() {
+          this.getAll();
+          this. getWarehous();
+          this. getPersonnel();
+          this. getScrap();
+          this.getGenres();
+      },
+
+      methods: {
+          findSbureibeBySuorder(row){
+                  axios.get("/warehous/" + row.waid).then((res) => {
+                      if (res.data.success && res.data.data != null) {
+                          this.warehousData = res.data.data;
+                      } else {
+                          this.$message.error("当前数据不存在");
+                      }
+
+                  }).catch(() => {
+                      this.getAll();
+                  })
+              axios.get("/retirement/" + row.reid).then((res) => {
+                  if (res.data.success && res.data.data != null) {
+                      this.Subscriptiondetails = true;
+                      this.formData = res.data.data;
+                  } else {
+                      this.$message.error("当前数据不存在");
+                  }
+              })
+          },
+
+            getWarehous(){
+                axios({
+                    method: "get",
+                    url: "/warehous",
+                }).then((resp) => {
+                    console.log(resp.data.data)
+                    this.optionsWarehous = resp.data.data;
+                });
+            },
+          getPersonnel(){
+              axios({
+                  method: "get",
+                  url: "/personnel",
+              }).then((resp) => {
+                  console.log(resp.data.data)
+                  this.optionsPersonnel = resp.data.data;
+              });
+          },
+          getScrap() {
+              axios({
+                  method: "get",
+                  url: "/scrap",
+              }).then((res) => {
+                  this.optionsScrap = res.data.data;
+
+              });
+          },
+          getGenres() {
+              axios({
+                  method: "get",
+                  url: "/genres",
+              }).then((res) => {
+                  this.optionsGenrecode = res.data.data;
+
+              });
+          },
+          getAll() {
+              var _this=this
+              axios({
+                method: "post",
+                url: "/retirement/" + this.pagination.currentPage + "/" + this.pagination.pageSize,
+                  dataType:'json',
+                data:this.fromDatas
+          }).then((res) => {
+                  this.pagination.pageSize = res.data.data.size;
+                  this.pagination.currentPage = res.data.data.current;
+                  this.pagination.total = res.data.data.total;
+                  this.dataList = res.data.data.records;
+              });
+          },
+          handleCurrentChange(currentPage) {
+              this.pagination.currentPage = currentPage;
+              this.getAll();
+          },
+
+          //弹出添加窗口
+          handleCreate() {
+              this.dialogFormVisible = true;
+              this.resetForm();
+
+          },
+
+          //重置表单
+          resetForm() {
+              this.formData = {};
+          },
+
+          //添加
+          handleAdd() {
+              this.$refs.dataAddForm.validate((valid)=>{
+                  if (valid) {
+                      axios.post("/retirement", this.formData).then((res) => {
+                          if (res.data.success) {
+                              this.dialogFormVisible = false;
+                              this.$message.success("添加成功")
+                          } else {
+                              this.dialogFormVisible = false;
+                              this.$message.error("添加失败");
+                          }
+                          //1.关闭弹窗
+                      }).finally(() => {
+                              this.getAll();
+                          });    }
+                  //2.重新加载数据
+
+
+              })
+          },
+
+          //取消
+          cancel() {
+              this.dialogFormVisible = false;
+              this.$message.info("当前操作取消");
+          },
+          cancels(){
+              this.dialogFormVisible4Edit = false;
+              this.$message.info("当前操作取消");
+          },
+          cancelssu(){
+              this.Subscriptiondetails = false;
+              this.$message.success("已关闭")
+          },
+          // 删除
+          handleDelete(row) {
+              this.$confirm("是否删除", "提升", {type: "info"}).then(() => {
+                  axios.delete("/retirement/" + row.reid).then((res) => {
+                      if (res.data.success) {
+                          this.$message.success("删除成功")
+                      } else {
+                          this.$message.error("删除失败");
+                      }
+
+                  }).finally(() => {
+                      this.getAll();
+                  });
+              }).catch(() => {
+                  this.$message.info("取消操作");
+              });
+          },
+
+          //弹出编辑窗口
+          handleUpdate(row) {
+              axios.get("/retirement/" + row.reid).then((res) => {
+                  if (res.data.success && res.data.data != null) {
+                      this.dialogFormVisible4Edit = true;
+                      this.formData = res.data.data;
+                  } else {
+                      this.$message.error("当前数据不存在");
+                  }
+
+              }).catch(() => {
+                  this.getAll();
+              })
+          },
+
+          //修改
+          handleEdit() {
+              axios.put("/retirement/", this.formData).then((res) => {
+                  if (res.data.success) {
+                      this.dialogFormVisible4Edit = false;
+                      this.$message.success("修改成功")
+                  }
+
+
+              }).finally(() => {
+                  this.getAll();
+              })
+          },
+
+
+
+          updateGenresStatus($event, row) {
+              this.$confirm("是否修改状态", "提示", {type: "info"}).then(() => {
+              axios.put("/retirement/" + row.reid + "/" + row.isValid).then((res) => {
+                  if (res.data.success) {
+                      this.$message.success("修改成功")
+                  } else {
+                      this.$message.error("删除失败");
+                  }
+              })
+
+          }).catch(() => {
+                  this.getAll();
+                  this.$message.info("取消操作");
+              })
+          },
+
+          handleSelectionChange(val) {
+              this.multipleSelection =val
+              console.log(this.multipleSelection)
+          },
+          deleteByIds() {
+              for (let i = 0; i < this.multipleSelection.length; i++) {
+                  let selectionElement = this.multipleSelection[i];
+                  this.selectedIds[i] = selectionElement.id;
+
+              }
+              genres=this.multipleSelection
+var _this=this
+                  axios({
+                      method:"post",
+                      url:"/retirement",
+                      data: _this.selectedIds
+                  }).then(function (resp) {
+
+                      if(resp.data == "success"){
+                          //删除成功
+
+                          // 重新查询数据
+                          // 弹出消息提示
+                          _this.$message({
+                              message: '恭喜你，删除成功',
+                              type: 'success'
+                          });
+
+                      }
+                  })
+
+
+
+          },
+          onSubmit() {
+              this.$confirm("是否查询？", "温馨提示", {type: "info"}).then(() => {
+              this.getAll();
+              }).catch(() => {
+                  this.$message.info("取消操作");
+              });
+          },
+
+          addGenrecodecheck() {
+              this.errorMsg = '';
+              var msgg="当前用户信息存在，请检查";
+              axios({
+                  method: "post",
+                  url: "/subscribe/checkform",
+                  data: this.formData
+              }).then(function (resp) {
+                  if (resp.data.success) {
+                this.errorMsg=resp.data.msg
+                        alert(msgg)
+
+                  }
+              })
+          }
+      }
+
+  })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.virtue.mapper.SubscribeMapper">
+    <update id="updateBysubscribe" parameterType="com.virtue.pojo.Subscribe">
+
+        update subscribe  set  peid=#{peid},gid=#{gid},sudate=#{sudate},suggest=#{suggest},suass=#{suass},sunub=#{sunub},suprice=#{suprice},reason=#{reason} where suid=#{suid}
+    </update>
+
+
+    <select id="findByPage" resultType="com.virtue.pojo.Subscribe">
+SELECT  s.is_valid, s.suorder,suass,sunub,s.suprice ,s.reason,suggest,g.gname,g.genrecode,p.pename, p.pename,p.jobnub,p.dename, s.sudate ,s.suid,s.gid,s.peid FROM subscribe s
+    INNER JOIN genre g ON s.gid=g.gid
+    INNER JOIN personnel p ON s.peid=p.peid ${ew.customSqlSegment}
+
+    </select>
+    <select id="findOneBySuid" resultType="com.virtue.pojo.Subscribe" parameterType="integer">
+
+SELECT s.auditres, s.suorder,suass,sunub,s.suprice ,s.reason,suggest,g.gname,g.genrecode,p.pename, p.pename,p.jobnub,p.dename, s.sudate ,s.suid,s.gid,s.peid FROM subscribe s
+    INNER JOIN genre g ON s.gid=g.gid
+    INNER JOIN personnel p ON s.peid=p.peid where s.suid=#{suid}
+
+    </select>
+</mapper>

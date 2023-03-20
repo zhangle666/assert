@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.virtue.mapper.WarehousMapper">
+    <insert id="saveWarehous" parameterType="com.virtue.pojo.Warehous">
+
+        insert  into warehous(waid,gid,supid,brid,acid,wadate,stid,waname,waimg,is_valid) values(#{waid},#{gid},#{supid},#{brid},#{acid},#{wadate},#{stid},#{waname},#{waimg},#{isValid})
+    </insert>
+    <update id="updateIsValidByWaid" parameterType="integer">
+       update warehous set is_valid=2 where waid=#{waid}
+
+
+    </update>
+
+
+    <select id="findByPage" resultType="com.virtue.pojo.Warehous">
+
+        SELECT w.waimg, g.genrecode,g.gname,w.is_valid,s.supname,b.brname,a.acname,e.stname,w.waname,w.wadate,w.waid FROM warehous w
+INNER JOIN  genre g ON w.gid=g.gid
+INNER JOIN supplier s ON w.supid=s.supid
+INNER JOIN brand b ON w.brid=b.brid
+INNER JOIN achieve a ON w.acid=a.acid
+INNER JOIN store e ON w.stid=e.stid ${ew.customSqlSegment}
+
+    </select>
+    <select id="findOneBySuid" resultType="com.virtue.pojo.Warehous">
+
+
+    </select>
+    <select id="getByWaidWarehous" resultType="com.virtue.pojo.Warehous" parameterType="integer">
+                SELECT g.genrecode,g.gname,w.is_valid,s.supname,b.brname,a.acname,e.stname,w.waimg,w.waname,w.wadate,w.waid FROM warehous w
+INNER JOIN  genre g ON w.gid=g.gid
+INNER JOIN supplier s ON w.supid=s.supid
+INNER JOIN brand b ON w.brid=b.brid
+INNER JOIN achieve a ON w.acid=a.acid
+INNER JOIN store e ON w.stid=e.stid where w.waid=#{waid}
+
+
+    </select>
+    <select id="findWaname" resultType="com.virtue.pojo.Warehous">
+        select * from warehous where is_valid=1 or is_valid=6
+    </select>
+    <select id="findAll" resultType="com.virtue.pojo.Warehous">
+
+        SELECT w.waimg, g.genrecode,g.gname,w.is_valid,s.supname,b.brname,a.acname,e.stname,w.waname,w.wadate,w.waid FROM warehous w
+INNER JOIN  genre g ON w.gid=g.gid
+INNER JOIN supplier s ON w.supid=s.supid
+INNER JOIN brand b ON w.brid=b.brid
+INNER JOIN achieve a ON w.acid=a.acid
+INNER JOIN store e ON w.stid=e.stid
+
+
+    </select>
+    <select id="selectByWaname" resultType="com.virtue.pojo.Warehous" parameterType="string">
+
+        select * from warehous where  waname=#{waname}
+    </select>
+</mapper>

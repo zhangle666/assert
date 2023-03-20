@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>资产申购审批 - 美德(elvt Year Admin)后台管理系统</title>
+  <link rel="icon" href="favicon.ico" type="image/ico">
+  <meta name="keywords" content="LightYear,">
+  <meta name="description" content="elvtAssets Admin是一个基于elem+vue 后台管理系统。">
+  <meta name="author" content="yinqi">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="css/style.min.css" rel="stylesheet">
+  <link href="js/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="plugins/elementui/index.css">
+  <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/stylee.css">
+  <style type="text/css">
+        .sss1 p{
+            font-size: 17px;
+            color: #1D1E2F;
+            margin-left: 130px;
+            padding-top: 20px;
+
+        }
+      .sss1 p1{
+          color: #8c909a;
+          font-size: 15px;
+
+      }
+        .sss1 p6{
+            color: #8c909a;
+            font-size: 15px;
+            padding-left: 250px;
+        }
+      .sss1 h1{
+          margin-left: 40px;
+      }
+      .sss1 p2{
+          font-size: 17px;
+          color: #1D1E2F;
+          margin-left: 130px;
+      }.sss1 p3{
+                 font-weight: bolder;
+             }
+      .sss1 h2{
+          font-size: 17px;
+          margin-left: 90px;
+      }
+
+
+  </style>
+    <style lang="scss">
+        .el-dialog__header{
+            border-bottom: 1px solid #e8eaec;
+            background-color: #0997F7;
+            color: #fff;
+        }
+        .el-dialog__footer {
+            border-top: 1px solid #e8eaec;
+        }
+    </style>
+
+</head>
+
+<body>
+<div id="app">
+  <div class="container-fluid p-t-15">
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+
+
+            <div class="toolbar-btn-action">
+<!--                <div shiro:hasAnyRoles="BOOS, developer,sys">-->
+
+
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">新增类型</h4>
+                    </div>
+
+                    <span style="color:   #204D74; font-size: 16px;margin-left: 10px;" >类别编码:</span><input class="form-control" type="email" id="example-if-email" name="example-if-email" placeholder="请输入编码类型.." style="width: 400px;" height="100px">
+                    <span style="color:  #204D74; font-size: 16px;margin-left: 10px;" >类别名称:<input class="form-control" type="password" id="example-if-password" name="example-if-password" placeholder="请输入类型名称.." style="width: 400px;">
+								<div class="danxuank">
+									<input type="radio" name="payMethod" value="1" /><span style="color: #0FB25F; font-size: 18px;" >启用</span>
+							   <input type="radio" name="payMethod" value="2" /><span style="color: red; font-size: 18px;">禁用</span>
+								</div>
+
+						  <div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary"data-dismiss="modal">点击保存</button>
+						  </div>
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+
+<!--              <a   class="btn btn-success m-r-5" href="#!"><i class="mdi mdi-check"></i> 启用</a>-->
+<!--              <a class="btn btn-warning m-r-5" href="#!"><i class="mdi mdi-block-helper"></i> 禁用</a>-->
+<!--                <button type="button" class="btn btn-primary m-r-5" @click="deleteByIds"> <i class="mdi mdi-window-close"></i> 删除</button>  </div>-->
+            <div class="onselect" style="margin-left: 200px;margin-top: -20px">
+
+
+            </div>
+        </div>
+      </div>
+
+          <div class="card-body">
+
+            <div class="table-responsive">
+
+              <el-table  ref="accountTable" size=""  current-row-key="id" :data="dataList" border style="width: 100%"  @selection-change="handleSelectionChange" >
+                  <el-table-column type="selection" width="55"></el-table-column>
+                  <el-table-column type="index" label="序号" width="50"></el-table-column>
+                  <el-table-column prop="suorder" label="申购单号" align="center" ><template slot-scope="scope"> <a href="" onclick="return false"><div class="blue-font-color" @click="findSbureibeBySuorder(scope.row)">{{ scope.row.suorder }}</div></a> </template></el-table-column>
+                <el-table-column prop="suass" label="申购资产" align="center" ></el-table-column>
+                  <el-table-column prop="genrecode" label="资产类别" align="center" ></el-table-column>
+                  <el-table-column prop="sunub" label="申购数量" align="center" ></el-table-column>
+                  <el-table-column prop="pename" label="申请人" align="center" ></el-table-column>
+                  <el-table-column prop="dename" label="所属部门" align="center" ></el-table-column>
+                  <el-table-column prop="sudate" label="申请日期" align="center" ></el-table-column>
+                  <el-table-column label="状态"
+                                   width="80">
+                      <template slot-scope="scope">
+                          <span v-if="scope.row.isValid == 1" style="color: #0FB25F">通过！</span>
+                          <span v-if="scope.row.isValid == 2" style="color: #f0ad4e">待审批</span>
+                          <span v-if="scope.row.isValid == 0" style="color: #0abdfe">已驳回，不通过</span>
+
+                      </template>
+                  </el-table-column>
+                  </a>
+                <el-table-column label="操作" align="center">
+
+                  <template slot-scope="scope">
+                     <a shiro:hasAnyRoles="BOOS, developer,sys">
+                      <span v-if="scope.row.isValid != 1" style="color: red"> <el-button type="success" round @click="updateIsvalid(scope.row)">同意</el-button></span>
+
+                      <span v-if="scope.row.isValid == 0 " style="color: red"> <el-button type="danger"  circle @click="handleUpdate(scope.row)">驳回</el-button></span>
+           <span v-if="scope.row.isValid == 2 " style="color: red"> <el-button type="danger"  circle @click="handleUpdate(scope.row)">驳回</el-button></span> </a>
+                  </template>
+
+
+
+                </el-table-column>
+              </el-table>
+
+            </tbody>
+
+
+          </div>
+          <!--分页组件-->
+          <div class="pagination-container">
+
+            <el-pagination
+                    class="pagiantion"
+
+                    @current-change="handleCurrentChange"
+
+                    :current-page="pagination.currentPage"
+
+                    :page-size="pagination.pageSize"
+
+                    layout="total, prev, pager, next, jumper"
+
+                    :total="pagination.total">
+
+            </el-pagination>
+          </div>
+
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+    </div>
+
+    <div class="add-form">
+
+
+        <el-dialog title="资产申购单详情" :visible.sync="Subscriptiondetails" >
+            <div class="sss1">
+                <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
+
+                <el-row>
+
+
+
+                            <h1 style="font-size: 18px;color: #1D1E2F;font-weight: bold;" >资产信息</h1>
+                                 <HR SIZE=1 color="#CCCCCC" width="90%" >
+
+
+                    <p >申购资产 : <p1>{{formData.suass}}</p1> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;资产类别 : <p1>{{formData.genrecode}}</p1></p><br>
+                    <h1 style="font-size: 18px;color: #1D1E2F;font-weight: bold;" >申购信息</h1>
+                    <HR SIZE=1 color="#CCCCCC"  width="90%">
+                    <p2>申购单号 ：<p3>{{formData.suorder}}</p3></p2>
+                <p>申请人 ： {{formData.pename}}({{formData.jobnub}}) <p6>所属部门：{{formData.dename}}</p6></p>
+                    <p>申请数量 ：{{formData.sunub}}<p6>预计价格：{{formData.suprice}}</p6></p>
+                   <p>申请建议 ：{{formData.suggest}}</p>
+                    <p> 申请理由：{{formData.reason}}</p>
+                    <p>申请结果:{{formData.auditres}}</p>
+                </el-row>
+
+
+            </el-form>
+        </div>
+            <div slot="footer" class="dialog-footer">
+
+                <el-button @click="cancelssu()">关闭</el-button>
+
+            </div>
+
+        </el-dialog>
+
+
+    </div>
+    <div class="add-form">
+
+
+        <el-dialog title="驳回申请编辑" :visible.sync="SubscriptiondetailsBH" >
+            <div class="sss1">
+                <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
+
+                    <el-row>
+
+
+
+                        <h1 style="font-size: 18px;color: #1D1E2F;font-weight: bold;" >资产信息</h1>
+                        <HR SIZE=1 color="#CCCCCC" width="90%" >
+
+
+                        <p >申购资产 : <p1>{{formData.suass}}</p1> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;资产类别 : <p1>{{formData.genrecode}}</p1></p><br>
+                        <h1 style="font-size: 18px;color: #1D1E2F;font-weight: bold;" >申购信息</h1>
+                        <HR SIZE=1 color="#CCCCCC"  width="90%">
+                        <p2>申购单号 ：<p3>{{formData.suorder}}</p3></p2>
+                        <p>申请人 ： {{formData.pename}}({{formData.jobnub}}) <p6>所属部门：{{formData.dename}}</p6></p>
+                        <p>申请数量 ：{{formData.sunub}}<p6>预计价格：{{formData.suprice}}</p6></p>
+                        <p>申请建议 ：{{formData.suggest}}</p>
+                        <p> 申请理由：{{formData.reason}}</p>
+                    </el-row>
+
+                    <el-row>
+                        <el-col :span="7">
+
+                            <el-form-item label="驳回理由是" prop="sunub">
+                                <el-input
+                                        type="textarea"
+                                        :autosize="{ minRows: 2, maxRows: 4}"
+                                        placeholder="请输入"
+                                        v-model="formData.auditres" style="width: 350px">
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+
+                </el-form>
+                </el-form>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="handleEdit()">确定</el-button>
+                <el-button @click="cancelssus()">关闭</el-button>
+
+            </div>
+
+        </el-dialog>
+
+
+    </div>
+</div>
+
+
+  </div>
+</div>
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/main.min.js"></script>
+<script src="js/vue.js"></script>
+
+<script src="plugins/elementui/index.js"></script>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script src="js/axios-0.18.0.js"></script>
+<script type="text/javascript">
+  $(function(){
+    $('.search-bar .dropdown-menu a').click(function() {
+      var field = $(this).data('field') || '';
+      $('#search-field').val(field);
+      $('#search-btn').html($(this).text() + ' <span class="caret"></span>');
+    });
+  });
+</script>
+<script>
+  var vue = new Vue({
+      el: '#app',
+      data: {
+          pickerOptions: {
+              disabledDate(time) {
+                  return time.getTime() > Date.now();
+              },
+          },
+          multipleSelection: [],
+          ids:[],
+          errorMsg:'',
+          dataList: [],//当前页要展示的列表数据
+          optionsGenrecode: [],
+          optionsSuaplct: [],//获取下拉信息
+          dialogFormVisible: false,//添加表单是否可见
+          dialogFormVisible4Edit: false,//编辑表单是否可见
+          SubscriptiondetailsBH:false,
+          Subscriptiondetails:false,
+          formData: {suid:"",suorder:"",suass:"" ,genrecode:"",sunub:"",suprice:"",pename:"",sudate:"",reason:"",suggest:"",auditres:""},
+          fromDatas:{suid:"",suorder:"",suass:"" ,genrecode:"",sunub:"",suprice:"",pename:"",sudate:"",reason:"",suggest:"",beginTime:""}, //表单数据
+
+          rules: {//校验规则
+              suggest: [ {
+                  min: 2,
+                  max: 20,
+                  message: '长度在 2 到 20 个字符',
+                  trigger: 'blur'
+              }],
+              suass: [{required: true, message: "申购资产不能为空，用点心！", trigger: 'blur'}, {
+                  min: 2,
+                  max: 30,
+                  message: '长度在 2 到 30 个字符',
+                  trigger: 'blur'
+              }],
+              sunub: [{required: true, message: '申请数量不能为空', trigger: 'blur'},
+
+                  {
+                      validator: function (rule, value, callback) {
+                          if ( /^(\+?[1-9]\d{0,2}|\+?1000)$/.test(value) == false) {
+                              callback(new Error("数量不合法"));
+                          } else {
+                              callback();
+                          }
+                      }
+                  }
+              ],
+              suprice: [{required: true, message: '申请价格不能为空', trigger: 'blur'},
+                  {
+                      min: 1,
+                      max: 7,
+                      message: '公司没那么有钱！别想了',
+                      trigger: 'blur'}
+                     ,
+
+                  {
+                      validator: function (rule, value, callback) {
+                          if ( /^[0-9]+(\.[0-9]{2})?$/.test(value) == false) {
+                              callback(new Error("认证点!钱钱钱，注意格式！"));
+                          } else {
+                              callback();
+                          }
+                      }
+                  }
+              ],
+              reason: [{required: true, message: '申请理由不能为空', trigger: 'blur'},
+                  {
+                      min: 3,
+                      max: 200,
+                      message: '理由太短或太长了！',
+                      trigger: 'blur'}
+                  ,
+
+                  {
+                      validator: function (rule, value, callback) {
+                          if ( /^[0-9]+(\.[0-9]{2})?$/.test(value) == false) {
+                              callback(new Error("认证点!钱钱钱，注意格式！"));
+                          } else {
+                              callback();
+                          }
+                      }
+                  }
+              ],
+              sudate:[{required: true, message: '日期不能为空', trigger: 'blur'}],
+              peid: [{required: true, message: '申请人不能为空', trigger: 'blur'}],
+              gid: [{required: true, message: '资产类别不能为空', trigger: 'blur'}]
+          },
+          pagination: {//分页相关模型数据
+              currentPage: 1,//当前页码
+              pageSize: 10,//每页显示的记录数
+              total: 0,//总记录数
+              type: "",
+              name: "",
+              desciption: ""
+          },
+      },
+
+      //钩子函数，VUE对象初始化完成后自动执行
+      created() {
+          this.getAll();
+          this.getGenres();
+          this.getPename();
+      },
+
+      methods: {
+          findSbureibeBySuorder(row){
+              axios.get("/subscribe/" + row.suid).then((res) => {
+                  if (res.data.success && res.data.data != null) {
+                      this.Subscriptiondetails = true;
+                      this.formData = res.data.data;
+                  } else {
+                      this.$message.error("当前数据不存在");
+                  }
+              })
+          },
+          getGenres() {
+              axios({
+                  method: "get",
+                  url: "/genres",
+              }).then((res) => {
+                  this.optionsGenrecode = res.data.data;
+              });
+          },
+          getPename() {
+              axios({
+                  method: "get",
+                  url: "/personnel",
+              }).then((res) => {
+                  this.optionsSuaplct = res.data.data;
+              });
+          },
+          getAll() {
+              var _this=this
+              axios({
+                method: "post",
+                url: "/subscribe/" + this.pagination.currentPage + "/" + this.pagination.pageSize,
+                  dataType:'json',
+                data:this.fromDatas
+          }).then((res) => {
+                  this.pagination.pageSize = res.data.data.size;
+                  this.pagination.currentPage = res.data.data.current;
+                  this.pagination.total = res.data.data.total;
+                  this.dataList = res.data.data.records;
+              });
+          },
+          handleCurrentChange(currentPage) {
+              this.pagination.currentPage = currentPage;
+              this.getAll();
+          },
+
+          //弹出添加窗口
+          handleCreate() {
+              this.dialogFormVisible = true;
+              this.resetForm();
+
+          },
+          handleBH() {
+              this.SubscriptiondetailsBH = true;
+              this.resetForm();
+
+          },
+
+          //重置表单
+          resetForm() {
+              this.formData = {};
+          },
+
+          //添加
+          handleAdd() {
+              this.$refs.dataAddForm.validate((valid)=>{
+                  if (valid) {
+                      axios.post("/subscribe", this.formData).then((res) => {
+                          if (res.data.success) {
+                              this.dialogFormVisible = false;
+                              this.$message.success("添加成功")
+                          } else {
+                              this.dialogFormVisible = false;
+                              this.$message.error("添加失败");
+                          }
+                          //1.关闭弹窗
+                      }).finally(() => {
+                              this.getAll();
+                          });    }
+                  //2.重新加载数据
+
+
+              })
+          },
+
+          //取消
+          cancel() {
+              this.dialogFormVisible = false;
+              this.$message.info("当前操作取消");
+          },
+          cancels(){
+              this.dialogFormVisible4Edit = false;
+              this.$message.info("当前操作取消");
+          },
+          cancelssu(){
+              this.Subscriptiondetails = false;
+              this.$message.success("已关闭")
+          },
+
+          cancelssus(){
+              this.SubscriptiondetailsBH = false;
+              this.$message.success("已关闭")
+          },
+          // 删除
+          handleDelete(row) {
+              this.$confirm("是否删除", "提升", {type: "info"}).then(() => {
+                  axios.delete("/subscribe/" + row.suid).then((res) => {
+                      if (res.data.success) {
+                          this.$message.success("删除成功")
+                      } else {
+                          this.$message.error("删除失败");
+                      }
+
+                  }).finally(() => {
+                      this.getAll();
+                  });
+              }).catch(() => {
+                  this.$message.info("取消操作");
+              });
+          },
+
+          //弹出编辑窗口
+          handleUpdate(row) {
+              axios.get("/subscribe/" + row.suid).then((res) => {
+                  if (res.data.success && res.data.data != null) {
+                      this.SubscriptiondetailsBH = true;
+                      this.formData = res.data.data;
+                  } else {
+                      this.$message.error("当前数据不存在");
+                  }
+
+              }).catch(() => {
+                  this.getAll();
+              })
+          },
+
+          //修改
+          handleEdit() {
+              axios.put("/subscribe/disagree", this.formData).then((res) => {
+                  if (res.data.success) {
+                      this.SubscriptiondetailsBH = false;
+                      this.$message.success("驳回成功！")
+                  }
+
+
+              }).finally(() => {
+                  this.getAll();
+              })
+          },
+
+
+
+
+
+          handleSelectionChange(val) {
+              this.multipleSelection =val
+              console.log(this.multipleSelection)
+          },
+          deleteByIds() {
+              for (let i = 0; i < this.multipleSelection.length; i++) {
+                  let selectionElement = this.multipleSelection[i];
+                  this.selectedIds[i] = selectionElement.id;
+
+              }
+              genres=this.multipleSelection
+var _this=this
+                  axios({
+                      method:"post",
+                      url:"/subscribe",
+                      data: _this.selectedIds
+                  }).then(function (resp) {
+
+                      if(resp.data == "success"){
+                          //删除成功
+
+                          // 重新查询数据
+                          // 弹出消息提示
+                          _this.$message({
+                              message: '恭喜你，删除成功',
+                              type: 'success'
+                          });
+
+                      }
+                  })
+
+
+
+          },
+          onSubmit() {
+              this.$confirm("是否查询？", "温馨提示", {type: "info"}).then(() => {
+              this.getAll();
+              }).catch(() => {
+                  this.$message.info("取消操作");
+              });
+          },
+
+          addGenrecodecheck() {
+              this.errorMsg = '';
+              var msgg="当前用户信息存在，请检查";
+              axios({
+                  method: "post",
+                  url: "/subscribe/checkform",
+                  data: this.formData
+              }).then(function (resp) {
+                  if (resp.data.success) {
+                this.errorMsg=resp.data.msg
+                        alert(msgg)
+
+                  }
+              })
+          },
+          updateIsvalid(row) {
+              this.$confirm("是否同意申购", "温馨提示", {type: "info"}).then(() => {
+                  axios.put("/subscribe/" + row.suid).then((res) => {
+                      if (res.data.success) {
+                          this.$message.success("操作成功！")
+                      } else {
+                          this.$message.error("操作失败！");
+                      }
+
+                  }).finally(() => {
+                      this.getAll();
+                  });
+              }).catch(() => {
+                  this.$message.info("取消操作");
+              });
+          },
+      }
+
+
+  })
+
+</script>
+</body>
+</html>

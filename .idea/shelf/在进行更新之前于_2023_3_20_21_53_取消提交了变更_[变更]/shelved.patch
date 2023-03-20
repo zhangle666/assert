@@ -1,0 +1,43 @@
+Index: src/main/java/com/virtue/utils/MyByteSource.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.virtue.utils;\r\n\r\nimport org.apache.shiro.codec.Base64;\r\nimport org.apache.shiro.codec.CodecSupport;\r\nimport org.apache.shiro.codec.Hex;\r\nimport org.apache.shiro.util.ByteSource;\r\n\r\nimport java.io.File;\r\nimport java.io.InputStream;\r\nimport java.io.Serializable;\r\nimport java.util.Arrays;\r\n\r\n/**\r\n * 由于shiro中提供的simpleByteSource实现没有实现序列化，所以在认证时出现错误信息\r\n * 需要自动salt实现序列化\r\n * @author yjiewei\r\n * @date 2021/7/26\r\n */\r\npublic class MyByteSource implements ByteSource, Serializable {\r\n    private  byte[] bytes;\r\n    private String cachedHex;\r\n    private String cachedBase64;\r\n\r\n    public MyByteSource(){\r\n\r\n    }\r\n\r\n    public MyByteSource(byte[] bytes) {\r\n        this.bytes = bytes;\r\n    }\r\n\r\n    public MyByteSource(char[] chars) {\r\n        this.bytes = CodecSupport.toBytes(chars);\r\n    }\r\n\r\n    public MyByteSource(String string) {\r\n        this.bytes = CodecSupport.toBytes(string);\r\n    }\r\n\r\n    public MyByteSource(ByteSource source) {\r\n        this.bytes = source.getBytes();\r\n    }\r\n\r\n    public MyByteSource(File file) {\r\n        this.bytes = (new BytesHelper()).getBytes(file);\r\n    }\r\n\r\n    public MyByteSource(InputStream stream) {\r\n        this.bytes = (new BytesHelper()).getBytes(stream);\r\n    }\r\n\r\n    public static boolean isCompatible(Object o) {\r\n        return o instanceof byte[] || o instanceof char[] || o instanceof String || o instanceof ByteSource || o instanceof File || o instanceof InputStream;\r\n    }\r\n\r\n    public byte[] getBytes() {\r\n        return this.bytes;\r\n    }\r\n\r\n    public boolean isEmpty() {\r\n        return this.bytes == null || this.bytes.length == 0;\r\n    }\r\n\r\n    public String toHex() {\r\n        if (this.cachedHex == null) {\r\n            this.cachedHex = Hex.encodeToString(this.getBytes());\r\n        }\r\n\r\n        return this.cachedHex;\r\n    }\r\n\r\n    public String toBase64() {\r\n        if (this.cachedBase64 == null) {\r\n            this.cachedBase64 = Base64.encodeToString(this.getBytes());\r\n        }\r\n\r\n        return this.cachedBase64;\r\n    }\r\n\r\n    public String toString() {\r\n        return this.toBase64();\r\n    }\r\n\r\n    public int hashCode() {\r\n        return this.bytes != null && this.bytes.length != 0 ? Arrays.hashCode(this.bytes) : 0;\r\n    }\r\n\r\n    public boolean equals(Object o) {\r\n        if (o == this) {\r\n            return true;\r\n        } else if (o instanceof ByteSource) {\r\n            ByteSource bs = (ByteSource)o;\r\n            return Arrays.equals(this.getBytes(), bs.getBytes());\r\n        } else {\r\n            return false;\r\n        }\r\n    }\r\n\r\n    private static final class BytesHelper extends CodecSupport {\r\n        private BytesHelper() {\r\n        }\r\n\r\n        public byte[] getBytes(File file) {\r\n            return this.toBytes(file);\r\n        }\r\n\r\n        public byte[] getBytes(InputStream stream) {\r\n            return this.toBytes(stream);\r\n        }\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/com/virtue/utils/MyByteSource.java b/src/main/java/com/virtue/utils/MyByteSource.java
+--- a/src/main/java/com/virtue/utils/MyByteSource.java	
++++ b/src/main/java/com/virtue/utils/MyByteSource.java	
+@@ -10,12 +10,7 @@
+ import java.io.Serializable;
+ import java.util.Arrays;
+ 
+-/**
+- * 由于shiro中提供的simpleByteSource实现没有实现序列化，所以在认证时出现错误信息
+- * 需要自动salt实现序列化
+- * @author yjiewei
+- * @date 2021/7/26
+- */
++
+ public class MyByteSource implements ByteSource, Serializable {
+     private  byte[] bytes;
+     private String cachedHex;
+Index: src/main/java/com/virtue/utils/ApplicationContextUtils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.virtue.utils;\r\n\r\nimport org.springframework.beans.BeansException;\r\nimport org.springframework.context.ApplicationContext;\r\nimport org.springframework.context.ApplicationContextAware;\r\nimport org.springframework.stereotype.Component;\r\n\r\n/**\r\n * ApplicationContext工具类\r\n * @author yjiewei\r\n * @date 2021/7/21\r\n */\r\n@Component\r\npublic class ApplicationContextUtils implements ApplicationContextAware {\r\n\r\n    private static ApplicationContext context;\r\n\r\n    @Override  // 这里根据注入情况添加\r\n    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {\r\n        context = applicationContext;\r\n    }\r\n\r\n    // 根据bean的名字获取容器中的bean\r\n    public static Object getBean(String beanName){\r\n        return context.getBean(beanName);\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/com/virtue/utils/ApplicationContextUtils.java b/src/main/java/com/virtue/utils/ApplicationContextUtils.java
+--- a/src/main/java/com/virtue/utils/ApplicationContextUtils.java	
++++ b/src/main/java/com/virtue/utils/ApplicationContextUtils.java	
+@@ -5,11 +5,7 @@
+ import org.springframework.context.ApplicationContextAware;
+ import org.springframework.stereotype.Component;
+ 
+-/**
+- * ApplicationContext工具类
+- * @author yjiewei
+- * @date 2021/7/21
+- */
++
+ @Component
+ public class ApplicationContextUtils implements ApplicationContextAware {
+ 

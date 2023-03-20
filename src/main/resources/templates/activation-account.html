@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div>Email 地址验证
+    这是一封由<a href="http://www.elvt.com" target="_blank">elvt公司</a>发送的 <br>
+    你收到这封邮件是在本公司<a href="wwww.ddd" target="_blank">elvt公司</a>进行了新用户注册 <br>
+    如果你并没有访问过，<a href="wwww">elvt公司</a>或没有过上诉操作，请忽略这封邮件 <br>
+    =============
+    账户激活说明 ================== <br>
+    如果你是 <a href="www">elvt公司</a>的新用户，或者你的注册使用本地址，我们只需要你点击下面激活账号即可↓↓ <br>
+    <a th:href="@{${activationUrl}}"><span th:text="${activationUrl}"></span></a> <br>
+    感谢你的支持！祝你生活愉快！！
+</div>
+</body>
+</html>

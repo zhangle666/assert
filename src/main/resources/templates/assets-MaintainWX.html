@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>资产维修统计 - 美德(elvt Year Admin)后台管理系统</title>
+  <link rel="icon" href="favicon.ico" type="image/ico">
+  <meta name="keywords" content="LightYear,">
+  <meta name="description" content="elvtAssets Admin是一个基于elem+vue 后台管理系统。">
+  <meta name="author" content="yinqi">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="css/style.min.css" rel="stylesheet">
+  <link href="js/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="plugins/elementui/index.css">
+  <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/stylee.css">
+  <style type="text/css">
+        .sss1 p{
+            font-size: 17px;
+            color: #1D1E2F;
+            margin-left: 130px;
+            padding-top: 20px;
+
+        }
+      .sss1 p1{
+          color: #8c909a;
+          font-size: 15px;
+
+      }
+        .sss1 p6{
+            color: #8c909a;
+            font-size: 15px;
+            padding-left: 250px;
+        }
+      .sss1 h1{
+          margin-left: 40px;
+      }
+      .sss1 p2{
+          font-size: 17px;
+          color: #1D1E2F;
+          margin-left: 130px;
+      }.sss1 p3{
+                 font-weight: bolder;
+             }
+      .sss1 h2{
+          font-size: 17px;
+          margin-left: 90px;
+      }
+
+
+  </style>
+    <style lang="scss">
+        .el-dialog__header{
+            border-bottom: 1px solid #e8eaec;
+            background-color: #0997F7;
+            color: #fff;
+        }
+        .el-dialog__footer {
+            border-top: 1px solid #e8eaec;
+        }
+    </style>
+
+</head>
+
+<body>
+<div id="app">
+  <div class="container-fluid p-t-15">
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+
+
+            <div class="toolbar-btn-action">
+<!--                <div shiro:hasAnyRoles="BOOS, developer,sys">-->
+
+
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">新增类型</h4>
+                    </div>
+
+                    <span style="color:   #204D74; font-size: 16px;margin-left: 10px;" >类别编码:</span><input class="form-control" type="email" id="example-if-email" name="example-if-email" placeholder="请输入编码类型.." style="width: 400px;" height="100px">
+                    <span style="color:  #204D74; font-size: 16px;margin-left: 10px;" >类别名称:<input class="form-control" type="password" id="example-if-password" name="example-if-password" placeholder="请输入类型名称.." style="width: 400px;">
+								<div class="danxuank">
+									<input type="radio" name="payMethod" value="1" /><span style="color: #0FB25F; font-size: 18px;" >启用</span>
+							   <input type="radio" name="payMethod" value="2" /><span style="color: red; font-size: 18px;">禁用</span>
+								</div>
+
+						  <div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary"data-dismiss="modal">点击保存</button>
+						  </div>
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+
+              <a   class="btn btn-success m-r-5" href="#!"><i class="mdi mdi-check"></i> 维修统计</a>
+<!--              <a class="btn btn-warning m-r-5" href="#!"><i class="mdi mdi-block-helper"></i> 禁用</a>-->
+<!--                <button type="button" class="btn btn-primary m-r-5" @click="deleteByIds"> <i class="mdi mdi-window-close"></i> 删除</button>  </div>-->
+            <div class="onselect" style="margin-left: 300px;margin-top: -20px">
+
+
+            </div>
+        </div>
+      </div>
+
+          <div class="card-body">
+
+            <div class="table-responsive">
+
+              <el-table  ref="accountTable" size=""  current-row-key="id" :data="dataList" border style="width: 100%"  @selection-change="handleSelectionChange" >
+                  <el-table-column type="selection" width="55"></el-table-column>
+                  <el-table-column type="index" label="序号" align="center" width="55"></el-table-column>
+                  <el-table-column prop="genrecode" label="资产编码" align="center" ></template></el-table-column>
+                  <el-table-column prop="waname" label="资产名称" align="center" ></el-table-column>
+                <el-table-column prop="ref" label="维修次数" align="center" ></el-table-column>
+                  <el-table-column prop="repr" label="维修金额" align="center" ></el-table-column>
+
+
+
+                </el-table-column>
+              </el-table>
+
+            </tbody>
+
+
+          </div>
+          <!--分页-->
+          <div class="pagination-container">
+
+            <el-pagination
+                    class="pagiantion"
+
+                    @current-change="handleCurrentChange"
+
+                    :current-page="pagination.currentPage"
+
+                    :page-size="pagination.pageSize"
+
+                    layout="total, prev, pager, next, jumper"
+
+                    :total="pagination.total">
+
+            </el-pagination>
+          </div>
+
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+    </div>
+
+
+
+</div>
+
+
+  </div>
+</div>
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/main.min.js"></script>
+<script src="js/vue.js"></script>
+
+<script src="plugins/elementui/index.js"></script>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script src="js/axios-0.18.0.js"></script>
+<script type="text/javascript">
+  $(function(){
+    $('.search-bar .dropdown-menu a').click(function() {
+      var field = $(this).data('field') || '';
+      $('#search-field').val(field);
+      $('#search-btn').html($(this).text() + ' <span class="caret"></span>');
+    });
+  });
+</script>
+<script>
+  var vue = new Vue({
+      el: '#app',
+      data: {
+          pickerOptions: {
+              disabledDate(time) {
+                  return time.getTime() > Date.now();
+              },
+          },
+          multipleSelection: [],
+          ids:[],
+          errorMsg:'',
+          dataList: [],//当前页要展示的列表数据
+          optionsGenrecode: [],
+          optionsBorrowed: [],
+          optionsPersonnel:[],
+          optionsWarehous:[],
+          optionsSuaplct: [],//获取下拉信息
+          dialogFormVisible: false,//添加表单是否可见
+          dialogFormVisible4Edit: false,//编辑表单是否可见
+          Subscriptiondetails:false,
+          formData: {},
+          updateData:{},
+          fromDatas:{},
+          warehousData:{},//表单数据
+          rules: {//校验规则
+              type: [{required: true, message: this.errorMsg, trigger: 'blur'}],
+              name: [{required: true, message: '资产你类型不能为空', trigger: 'blur'}]
+          },
+          ruless: {//校验规则
+              brnub: [{required: true, message: this.errorMsg, trigger: 'blur'}, {
+                  min: 3,
+                  max: 10,
+                  message: '长度在 3 到 10 个字符',
+                  trigger: 'blur'
+              }],
+              brname: [{required: true, message: '资产你类型不能为空', trigger: 'blur'}]
+          },
+          pagination: {//分页相关模型数据
+              currentPage: 1,//当前页码
+              pageSize: 10,//每页显示的记录数
+              total: 0,//总记录数
+              type: "",
+              name: "",
+              desciption: ""
+          },
+      },
+
+      //钩子函数
+      created() {
+          this.getAll();
+      },
+
+      methods: {
+          findSbureibeBySuorder(row){
+                  axios.get("/warehous/" + row.waid).then((res) => {
+                      if (res.data.success && res.data.data != null) {
+                          this.warehousData = res.data.data;
+                      } else {
+                          this.$message.error("当前数据不存在");
+                      }
+
+                  }).catch(() => {
+                      this.getAll();
+                  })
+              axios.get("/maintain/" + row.maid).then((res) => {
+                  if (res.data.success && res.data.data != null) {
+                      this.Subscriptiondetails = true;
+                      this.formData = res.data.data;
+                  } else {
+                      this.$message.error("当前数据不存在");
+                  }
+              })
+          },
+
+            getBorrowed(){
+                axios({
+                    method: "get",
+                    url: "/borrowed",
+                }).then((resp) => {
+                    console.log(resp.data.data)
+                    this.optionsBorrowed = resp.data.data;
+                });
+            },
+          getWarehous(){
+              axios({
+                  method: "get",
+                  url: "/warehous",
+              }).then((resp) => {
+                  console.log(resp.data.data)
+                  this.optionsWarehous = resp.data.data;
+              });
+          },
+          getPersonnel(){
+              axios({
+                  method: "get",
+                  url: "/personnel",
+              }).then((resp) => {
+                  console.log(resp.data.data)
+                  this.optionsPersonnel = resp.data.data;
+              });
+          },
+          getGenres() {
+              axios({
+                  method: "get",
+                  url: "/genress",
+              }).then((res) => {
+
+                  this.optionsGenrecode = res.data.data;
+
+              });
+          },
+          getAll() {
+              var _this=this
+              axios({
+                method: "post",
+                url: "/maintainwx/" + this.pagination.currentPage + "/" + this.pagination.pageSize,
+                  dataType:'json',
+                data:this.fromDatas
+          }).then((res) => {
+                  this.pagination.pageSize = res.data.data.size;
+                  this.pagination.currentPage = res.data.data.current;
+                  this.pagination.total = res.data.data.total;
+                  this.dataList = res.data.data.records;
+              });
+          },
+          handleCurrentChange(currentPage) {
+              this.pagination.currentPage = currentPage;
+              this.getAll();
+          },
+
+          //弹出添加窗口
+          handleCreate() {
+              this.dialogFormVisible = true;
+              this.resetForm();
+
+          },
+
+          //重置表单
+          resetForm() {
+              this.formData = {};
+          },
+
+          //添加
+          handleAdd() {
+              this.$refs.dataAddForm.validate((valid)=>{
+                  if (valid) {
+                      axios.post("/maintain", this.formData).then((res) => {
+                          if (res.data.success) {
+                              this.dialogFormVisible = false;
+                              this.$message.success("添加成功")
+                          } else {
+                              this.dialogFormVisible = false;
+                              this.$message.error("添加失败");
+                          }
+                          //1.关闭弹窗
+                      }).finally(() => {
+                              this.getAll();
+                          });    }
+                  //2.重新加载数据
+
+
+              })
+          },
+
+          //取消
+          cancel() {
+              this.dialogFormVisible = false;
+              this.$message.info("当前操作取消");
+          },
+          cancels(){
+              this.dialogFormVisible4Edit = false;
+              this.$message.info("当前操作取消");
+          },
+          cancelssu(){
+              this.Subscriptiondetails = false;
+              this.$message.success("已关闭")
+          },
+          // 删除
+          handleDelete(row) {
+              this.$confirm("是否删除", "提升", {type: "info"}).then(() => {
+                  axios.delete("/maintain/" + row.maid).then((res) => {
+                      if (res.data.success) {
+                          this.$message.success("删除成功")
+                      } else {
+                          this.$message.error("删除失败");
+                      }
+
+                  }).finally(() => {
+                      this.getAll();
+                  });
+              }).catch(() => {
+                  this.$message.info("取消操作");
+              });
+          },
+
+          //弹出编辑窗口
+          handleUpdate(row) {
+              axios.get("/maintain/" + row.maid).then((res) => {
+                  if (res.data.success && res.data.data != null) {
+                      this.dialogFormVisible4Edit = true;
+                      this.formData = res.data.data;
+                  } else {
+                      this.$message.error("当前数据不存在");
+                  }
+
+              }).catch(() => {
+                  this.getAll();
+              })
+          },
+
+          //修改
+          handleEdit() {
+              axios.put("/maintain/", this.formData).then((res) => {
+                  if (res.data.success) {
+                      this.dialogFormVisible4Edit = false;
+                      this.$message.success("修改成功")
+                  }
+
+
+              }).finally(() => {
+                  this.getAll();
+              })
+          },
+
+
+
+          updateGenresStatus($event, row) {
+              this.$confirm("是否修改状态", "提示", {type: "info"}).then(() => {
+              axios.put("/maintain/" + row.maid + "/" + row.isValid).then((res) => {
+                  if (res.data.success) {
+                      this.$message.success("修改成功")
+                  } else {
+                      this.$message.error("删除失败");
+                  }
+              })
+
+          }).catch(() => {
+                  this.getAll();
+                  this.$message.info("取消操作");
+              })
+          },
+
+          handleSelectionChange(val) {
+              this.multipleSelection =val
+              console.log(this.multipleSelection)
+          },
+          deleteByIds() {
+              for (let i = 0; i < this.multipleSelection.length; i++) {
+                  let selectionElement = this.multipleSelection[i];
+                  this.selectedIds[i] = selectionElement.id;
+
+              }
+              genres=this.multipleSelection
+var _this=this
+                  axios({
+                      method:"post",
+                      url:"/maintain",
+                      data: _this.selectedIds
+                  }).then(function (resp) {
+
+                      if(resp.data == "success"){
+                          //删除成功
+
+                          // 重新查询数据
+                          // 弹出消息提示
+                          _this.$message({
+                              message: '恭喜你，删除成功',
+                              type: 'success'
+                          });
+
+                      }
+                  })
+
+
+
+          },
+          onSubmit() {
+              this.$confirm("是否查询？", "温馨提示", {type: "info"}).then(() => {
+              this.getAll();
+              }).catch(() => {
+                  this.$message.info("取消操作");
+              });
+          },
+
+          addGenrecodecheck() {
+              this.errorMsg = '';
+              var msgg="当前用户信息存在，请检查";
+              axios({
+                  method: "post",
+                  url: "/subscribe/checkform",
+                  data: this.formData
+              }).then(function (resp) {
+                  if (resp.data.success) {
+                this.errorMsg=resp.data.msg
+                        alert(msgg)
+
+                  }
+              })
+          }
+      }
+
+  })
+
+</script>
+</body>
+</html>
